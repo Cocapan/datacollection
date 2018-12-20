@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.DeptSubjectMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.DeptSubject">
+    <id column="XH" jdbcType="INTEGER" property="xh" />
+    <result column="ZTBH" jdbcType="VARCHAR" property="ztbh" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="CJSJ" jdbcType="TIMESTAMP" property="cjsj" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    XH, ZTBH, BMBH, CJSJ
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gzrd_sjcj_bmztglb
+    where XH = #{xh,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gzrd_sjcj_bmztglb
+    where XH = #{xh,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteAllDeptCode" parameterType="string">
+    delete from gzrd_sjcj_bmztglb
+    where ZTBH = #{subjectCode, jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.DeptSubject">
+    insert into gzrd_sjcj_bmztglb (
+      ZTBH,
+      BMBH,
+      CJSJ
+    )
+    values (
+      #{ztbh,jdbcType=VARCHAR},
+      #{bmbh,jdbcType=VARCHAR},
+      #{cjsj,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.DeptSubject">
+    insert into gzrd_sjcj_bmztglb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        XH,
+      </if>
+      <if test="ztbh != null">
+        ZTBH,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+      <if test="cjsj != null">
+        CJSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="ztbh != null">
+        #{ztbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.DeptSubject">
+    update gzrd_sjcj_bmztglb
+    <set>
+      <if test="ztbh != null">
+        ZTBH = #{ztbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        BMBH = #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="cjsj != null">
+        CJSJ = #{cjsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.DeptSubject">
+    update gzrd_sjcj_bmztglb
+    set ZTBH = #{ztbh,jdbcType=VARCHAR},
+      BMBH = #{bmbh,jdbcType=VARCHAR},
+      CJSJ = #{cjsj,jdbcType=TIMESTAMP}
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectDeptInfoBySubjectCode" resultType="SubjectDeptInfoVO">
+    SELECT bz.`ZTBH` AS subjectCode, bz.`BMBH` AS deptCode, bm.`BMQMC` AS deptName
+    FROM `gzrd_sjcj_bmztglb` bz, `gzrd_sjcj_bmxxb` bm
+    WHERE bz.`BMBH` = bm.`BMBM` AND bz.`ZTBH` IN
+    <foreach collection="subjectCodes" index="index"
+             item="subjectCode" open="(" separator="," close=")">
+      #{subjectCode}
+    </foreach>
+  </select>
+
+</mapper>

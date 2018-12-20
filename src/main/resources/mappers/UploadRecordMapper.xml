@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.UploadRecordMapper">
+    
+    <resultMap id="showUploadRecordMap" type="cn.gz.rd.datacollection.model.UploadRecord">
+        <result column="upload_time" property="uploadTime" />
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+        <result column="topic_name" jdbcType="VARCHAR" property="topicName" />
+        <result column="topic_id" jdbcType="VARCHAR" property="topicId" />
+        <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+        <result column="upload_period" jdbcType="VARCHAR" property="uploadPeriod" />
+        <result column="upload_user" jdbcType="VARCHAR" property="uploadUser" />
+        <result column="storage_path" jdbcType="VARCHAR" property="storagePath" />
+        <result column="preview_path" jdbcType="VARCHAR" property="previewPath" />
+        <result column="statistics_period" jdbcType="VARCHAR" property="statisticsPeriod" />
+        <result column="superior_topic_id" jdbcType="VARCHAR" property="superiorTopicId" />
+    </resultMap>
+
+    <resultMap id="uploadPeriodList" type="java.lang.String">
+        <result column="upload_period" jdbcType="VARCHAR" property="uploadPeriod" />
+    </resultMap>
+
+
+    <insert id="insert" parameterType="cn.gz.rd.datacollection.model.UploadRecord">
+        insert into gzrd_sjcj_scjlb (ZTBH, BMBM, GWBM, WJBC, WJCFLJ, WJYLLJ, SCSJ, SCYH, TJZQ, SBPD)
+        values (#{topicId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR},
+                #{workingCommitteeId,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR},
+                #{storagePath,jdbcType=VARCHAR}, #{previewPath,jdbcType=VARCHAR},
+                #{uploadTime}, #{uploadUser,jdbcType=VARCHAR},
+                #{statisticsPeriod,jdbcType=VARCHAR}, #{uploadPeriod,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectThisMonthRecordByDepartmentId" resultMap="showUploadRecordMap">
+        SELECT gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.SCSJ BETWEEN #{startTime} AND #{endTime}
+              AND gss.TJZQ REGEXP #{statisticsPeriods}
+              AND gss.BMBM = #{departmentId}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="selectThisMonthRecordByWorkingCommitteeId" resultMap="showUploadRecordMap">
+        SELECT gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+           gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+           gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.SCSJ BETWEEN #{startTime} AND #{endTime}
+              AND gss.TJZQ REGEXP #{statisticsPeriods}
+              AND gss.GWBM = #{workingCommitteeId}
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+    
+    <select id="selectByDepartmentId" resultMap="showUploadRecordMap">
+        SELECT gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="selectByWorkingCommitteeId" resultMap="showUploadRecordMap">
+        SELECT
+            gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="selectByDepartmentIdAndStatisticsPeriod" resultMap="showUploadRecordMap">
+        SELECT
+            gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.BMBM = #{departmentId}
+              AND gss.TJZQ REGEXP #{statisticsPeriods}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="selectByWorkingCommitteeIdAndStatisticsPeriod" resultMap="showUploadRecordMap">
+        SELECT
+            gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.GWBM = #{workingCommitteeId}
+              AND gss.TJZQ REGEXP #{statisticsPeriods}
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="conditionQueryByWorkingCommitteeId" resultMap="showUploadRecordMap">
+        SELECT
+            gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+        <if test="departmentName != null and departmentName != ''">
+            AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+        </if>
+        <if test="topicName != null and topicName != ''">
+            AND gsi.subject_name  LIKE CONCAT('%',#{topicName},'%')
+        </if>
+        <if test="uploadPeriod != null and uploadPeriod != ''">
+            AND gss.SBPD = #{uploadPeriod,jdbcType=VARCHAR}
+        </if>
+            AND gss.SCSJ BETWEEN #{startDate} AND #{endDate}
+        AND gsi.usable_flag = 1
+        AND gsi.enable_flag = 1
+        ORDER BY gss.SCSJ desc
+    </select>
+
+    <select id="conditionQueryByDepartmentId" resultMap="showUploadRecordMap">
+        SELECT
+            gss.SCSJ AS upload_time, gsb.BMQMC AS department_name, gss.ZTBH AS topic_id, gsi.subject_name AS topic_name,
+            gss.WJBC AS file_name, gss.SBPD AS upload_period, gss.SCYH AS upload_user, gss.WJCFLJ AS storage_path,
+            gss.WJYLLJ AS preview_path, gss.TJZQ AS statistics_period, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_sjcj_scjlb gss
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gss.BMBM = gsb.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gss.GWBM = gsg.GWBM
+            LEFT JOIN gzrd_subject_info gsi ON gss.ZTBH = gsi.subject_code
+        WHERE gss.BMBM = #{departmentId,jdbcType=VARCHAR}
+        <if test="departmentName != null and departmentName != ''">
+            AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+        </if>
+        <if test="topicName != null and topicName != ''">
+            AND gsi.subject_name  LIKE CONCAT('%',#{topicName},'%')
+        </if>
+        <if test="uploadPeriod != null and uploadPeriod != ''">
+            AND gss.SBPD = #{uploadPeriod,jdbcType=VARCHAR}
+        </if>
+            AND gss.SCSJ BETWEEN #{startDate} AND #{endDate}
+            AND gsg.GWBM != 'GWBM_03'
+        AND gsi.usable_flag = 1
+        AND gsi.enable_flag = 1
+        ORDER BY gss.SCSJ desc
+    </select>
+
+    <select id="selectUploadPeriodByDepartmentId" parameterType="java.lang.String" resultMap="uploadPeriodList">
+        SELECT
+            DISTINCT(SBPD) AS upload_period
+        FROM gzrd_sjcj_scjlb gss
+        WHERE BMBM = #{departmentId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectUploadPeriodByWorkingCommitteeId" parameterType="java.lang.String" resultMap="uploadPeriodList">
+        SELECT
+            DISTINCT(SBPD) AS upload_period
+        FROM gzrd_sjcj_scjlb gss
+        WHERE GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+    </select>
+
+
+</mapper>

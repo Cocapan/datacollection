@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwOldageProblemScheduleMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwOldageProblemSchedule">
+    <result column="XMBH" jdbcType="INTEGER" property="xmbh" />
+    <result column="GZJH" jdbcType="VARCHAR" property="gzjh" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="SFWC" jdbcType="VARCHAR" property="sfwc" />
+    <result column="GZJZ" jdbcType="VARCHAR" property="gzjz" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="JJFA" jdbcType="VARCHAR" property="jjfa" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwOldageProblemSchedule">
+    insert into jkwww_xyjybxtjjlsylwtxfwtyljgylb (XMBH, GZJH, BZ, 
+      TJZQ, SFWC, BMBH, GZJZ, JJFA, TBR, LXDH)
+    values (#{xmbh,jdbcType=INTEGER}, #{gzjh,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, 
+      #{tjzq,jdbcType=VARCHAR}, #{sfwc,jdbcType=VARCHAR}, #{bmbh,jdbcType=VARCHAR},
+      #{gzjz,jdbcType=VARCHAR}, #{jjfa,jdbcType=VARCHAR}, #{tbr,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwOldageProblemSchedule">
+    insert into jkwww_xyjybxtjjlsylwtxfwtyljgylb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        XMBH,
+      </if>
+      <if test="gzjh != null">
+        GZJH,
+      </if>
+      <if test="bz != null">
+        BZ,
+      </if>
+      <if test="tjzq != null">
+        TJZQ,
+      </if>
+      <if test="sfwc != null">
+        SFWC,
+      </if>
+      <if test="gzjz != null">
+        GZJZ,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+      <if test="jjfa != null">
+        JJFA,
+      </if>
+      <if test="tbr != null">
+        TBR,
+      </if>
+      <if test="lxdh != null">
+        LXDH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        #{xmbh,jdbcType=INTEGER},
+      </if>
+      <if test="gzjh != null">
+        #{gzjh,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="tjzq != null">
+        #{tjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="sfwc != null">
+        #{sfwc,jdbcType=VARCHAR},
+      </if>
+      <if test="gzjz != null">
+        #{gzjz,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="jjfa != null">
+        #{jjfa,jdbcType=VARCHAR},
+      </if>
+      <if test="tbr != null">
+        #{tbr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteDeptData">
+    delete from jkwww_xyjybxtjjlsylwtxfwtyljgylb
+    where BMBH = #{deptCode,jdbcType=VARCHAR} and TJZQ = #{countRate,jdbcType=VARCHAR}
+  </delete>
+
+  <resultMap id="detailResultMap" type="cn.gz.rd.datacollection.model.JkwwOldageProblemSchedule">
+    <id column="XMBH" jdbcType="INTEGER" property="xmbh" />
+    <result column="Q" jdbcType="VARCHAR" property="q" />
+    <result column="JGMC" jdbcType="VARCHAR" property="jgmc" />
+    <result column="CWS" jdbcType="VARCHAR" property="cws" />
+    <result column="CLSJ" jdbcType="VARCHAR" property="clsj" />
+    <result column="ZJZMJ" jdbcType="VARCHAR" property="zjzmj" />
+    <result column="CZWT" jdbcType="VARCHAR" property="czwt" />
+
+    <result column="GZJH" jdbcType="VARCHAR" property="gzjh" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="SFWC" jdbcType="VARCHAR" property="sfwc" />
+    <result column="GZJZ" jdbcType="VARCHAR" property="gzjz" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="JJFA" jdbcType="VARCHAR" property="jjfa" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <select id="selectDeptData" resultMap="detailResultMap">
+    SELECT a.*, b.*
+    FROM jkwww_yljgjcxxb a, jkwww_xyjybxtjjlsylwtxfwtyljgylb b
+    WHERE a.`XMBH` = b.`XMBH`
+    <if test="deptCode != null">
+      AND b.`BMBH` = #{deptCode,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND b.`tjzq` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    ORDER BY a.`XMBH`
+  </select>
+
+</mapper>

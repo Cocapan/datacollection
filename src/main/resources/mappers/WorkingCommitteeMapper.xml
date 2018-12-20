@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.WorkingCommitteeMapper">
+
+    <resultMap id="workingCommitteeList" type="cn.gz.rd.datacollection.model.WorkingCommittee" >
+        <result column="working_committee_id" property="workingCommitteeId" jdbcType="VARCHAR" />
+        <result column="working_committee_name" property="workingCommitteeName" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <resultMap id="workingCommitteeNameList" type="java.lang.String" >
+        <result column="working_committee_name" property="workingCommitteeName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert" parameterType="cn.gz.rd.datacollection.model.WorkingCommittee">
+        <selectKey keyProperty="workingCommitteeId" order="AFTER" resultType="java.lang.String">
+            SELECT GWBM FROM gzrd_sjcj_gwxxb order by GWBM desc limit 1
+        </selectKey>
+        INSERT INTO gzrd_sjcj_gwxxb
+        (GWBM, GWQMC, BZ, CJSJ, CJYH, XGYH)
+        values
+        (#{workingCommitteeId,jdbcType=VARCHAR},
+        #{workingCommitteeName,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{createDate},
+        #{createUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.WorkingCommittee">
+        UPDATE gzrd_sjcj_gwxxb
+        <set >
+            <if test="workingCommitteeName != null" >
+                GWQMC = #{workingCommitteeName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                BZ = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null" >
+                XGYH = #{modifyUser,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM gzrd_sjcj_gwxxb
+    </select>
+
+    <select id="selectByWorkingCommitteeName" resultMap="workingCommitteeList" parameterType="java.lang.String">
+        SELECT
+            GWBM AS working_committee_id,
+            GWQMC AS working_committee_name,
+            BZ AS remark,
+            CJSJ AS create_date
+        FROM gzrd_sjcj_gwxxb
+        WHERE GWQMC = #{workingCommitteeName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="pageQueryAll" resultMap="workingCommitteeList" >
+        SELECT
+            GWBM AS working_committee_id,
+            GWQMC AS working_committee_name,
+            BZ AS remark,
+            CJSJ AS create_date
+        FROM gzrd_sjcj_gwxxb
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="getLastWorkingCommitteeId" resultType="java.lang.String">
+        SELECT GWBM FROM gzrd_sjcj_gwxxb order by GWBM desc limit 1
+    </select>
+
+    <select id="selectWorkingCommittees" resultMap="workingCommitteeList">
+        SELECT
+            GWBM AS working_committee_id,
+            GWQMC AS working_committee_name,
+            BZ AS remark,
+            CJSJ AS create_date
+        FROM gzrd_sjcj_gwxxb gsg
+    </select>
+
+</mapper>

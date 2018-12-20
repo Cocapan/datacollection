@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwProjectImgMapper">
+
+  <select id="selectProjectCodeBySubjectCode" parameterType="java.lang.String" resultType="java.lang.String">
+    SELECT s.`project_id`
+    FROM jkwww_subject_project s
+    WHERE s.`subject_code` = #{subjectCode,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

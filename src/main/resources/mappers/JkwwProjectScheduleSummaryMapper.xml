@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwProjectScheduleSummaryMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwProjectScheduleSummary">
+    <result column="XMXH" jdbcType="VARCHAR" property="xmxh" />
+    <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+    <result column="LDQGZ_SFZDSGZXFA" jdbcType="VARCHAR" property="ldqgzSfzdsgzxfa" />
+    <result column="LDQGZ_ZDQKWCL" jdbcType="DECIMAL" property="ldqgzZdqkwcl" />
+    <result column="LDQGZ_SFQDJSSGXKZ" jdbcType="VARCHAR" property="ldqgzSfqdjssgxkz" />
+    <result column="LDQGZ_YDZBQKWCL" jdbcType="DECIMAL" property="ldqgzYdzbqkwcl" />
+    <result column="LDQGZ_YSSFPF" jdbcType="VARCHAR" property="ldqgzYssfpf" />
+    <result column="SGJCQK_ZTBSFWC" jdbcType="VARCHAR" property="sgjcqkZtbsfwc" />
+    <result column="SGJCQK_SFCYDJ" jdbcType="VARCHAR" property="sgjcqkSfcydj" />
+    <result column="SGJCQK_JSDW" jdbcType="VARCHAR" property="sgjcqkJsdw" />
+    <result column="SGJCQK_YZDW" jdbcType="VARCHAR" property="sgjcqkYzdw" />
+    <result column="SGJCQK_TJJDBFL" jdbcType="DECIMAL" property="sgjcqkTjjdbfl" />
+    <result column="SGJCQK_NSGCJDBFL" jdbcType="DECIMAL" property="sgjcqkNsgcjdbfl" />
+    <result column="PTGC_HJGCJDBFL" jdbcType="DECIMAL" property="ptgcHjgcjdbfl" />
+    <result column="SFYSBYJSY" jdbcType="VARCHAR" property="sfysbyjsy" />
+    <result column="CZQTJDC" jdbcType="VARCHAR" property="czqtjdc" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwProjectScheduleSummary">
+    insert into jkwww_sswsqsbjshmsjcssjsxmjdzb (XMXH, XMMC, LDQGZ_SFZDSGZXFA, 
+      LDQGZ_ZDQKWCL, LDQGZ_SFQDJSSGXKZ, LDQGZ_YDZBQKWCL, 
+      LDQGZ_YSSFPF, SGJCQK_ZTBSFWC, SGJCQK_SFCYDJ, 
+      SGJCQK_JSDW, SGJCQK_YZDW, SGJCQK_TJJDBFL, 
+      SGJCQK_NSGCJDBFL, PTGC_HJGCJDBFL, SFYSBYJSY, 
+      CZQTJDC, BZ, TJZQ, 
+      BMBH, TBR, LXDH)
+    values (#{xmxh,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{ldqgzSfzdsgzxfa,jdbcType=VARCHAR}, 
+      #{ldqgzZdqkwcl,jdbcType=DECIMAL}, #{ldqgzSfqdjssgxkz,jdbcType=VARCHAR}, #{ldqgzYdzbqkwcl,jdbcType=DECIMAL}, 
+      #{ldqgzYssfpf,jdbcType=VARCHAR}, #{sgjcqkZtbsfwc,jdbcType=VARCHAR}, #{sgjcqkSfcydj,jdbcType=VARCHAR}, 
+      #{sgjcqkJsdw,jdbcType=VARCHAR}, #{sgjcqkYzdw,jdbcType=VARCHAR}, #{sgjcqkTjjdbfl,jdbcType=DECIMAL}, 
+      #{sgjcqkNsgcjdbfl,jdbcType=DECIMAL}, #{ptgcHjgcjdbfl,jdbcType=DECIMAL}, #{sfysbyjsy,jdbcType=VARCHAR}, 
+      #{czqtjdc,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}, #{tjzq,jdbcType=VARCHAR}, 
+      #{bmbh,jdbcType=VARCHAR}, #{tbr,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwProjectScheduleSummary">
+    insert into jkwww_sswsqsbjshmsjcssjsxmjdzb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xmxh != null">
+        XMXH,
+      </if>
+      <if test="xmmc != null">
+        XMMC,
+      </if>
+      <if test="ldqgzSfzdsgzxfa != null">
+        LDQGZ_SFZDSGZXFA,
+      </if>
+      <if test="ldqgzZdqkwcl != null">
+        LDQGZ_ZDQKWCL,
+      </if>
+      <if test="ldqgzSfqdjssgxkz != null">
+        LDQGZ_SFQDJSSGXKZ,
+      </if>
+      <if test="ldqgzYdzbqkwcl != null">
+        LDQGZ_YDZBQKWCL,
+      </if>
+      <if test="ldqgzYssfpf != null">
+        LDQGZ_YSSFPF,
+      </if>
+      <if test="sgjcqkZtbsfwc != null">
+        SGJCQK_ZTBSFWC,
+      </if>
+      <if test="sgjcqkSfcydj != null">
+        SGJCQK_SFCYDJ,
+      </if>
+      <if test="sgjcqkJsdw != null">
+        SGJCQK_JSDW,
+      </if>
+      <if test="sgjcqkYzdw != null">
+        SGJCQK_YZDW,
+      </if>
+      <if test="sgjcqkTjjdbfl != null">
+        SGJCQK_TJJDBFL,
+      </if>
+      <if test="sgjcqkNsgcjdbfl != null">
+        SGJCQK_NSGCJDBFL,
+      </if>
+      <if test="ptgcHjgcjdbfl != null">
+        PTGC_HJGCJDBFL,
+      </if>
+      <if test="sfysbyjsy != null">
+        SFYSBYJSY,
+      </if>
+      <if test="czqtjdc != null">
+        CZQTJDC,
+      </if>
+      <if test="bz != null">
+        BZ,
+      </if>
+      <if test="tjzq != null">
+        TJZQ,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+      <if test="tbr != null">
+        TBR,
+      </if>
+      <if test="lxdh != null">
+        LXDH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xmxh != null">
+        #{xmxh,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null">
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="ldqgzSfzdsgzxfa != null">
+        #{ldqgzSfzdsgzxfa,jdbcType=VARCHAR},
+      </if>
+      <if test="ldqgzZdqkwcl != null">
+        #{ldqgzZdqkwcl,jdbcType=DECIMAL},
+      </if>
+      <if test="ldqgzSfqdjssgxkz != null">
+        #{ldqgzSfqdjssgxkz,jdbcType=VARCHAR},
+      </if>
+      <if test="ldqgzYdzbqkwcl != null">
+        #{ldqgzYdzbqkwcl,jdbcType=DECIMAL},
+      </if>
+      <if test="ldqgzYssfpf != null">
+        #{ldqgzYssfpf,jdbcType=VARCHAR},
+      </if>
+      <if test="sgjcqkZtbsfwc != null">
+        #{sgjcqkZtbsfwc,jdbcType=VARCHAR},
+      </if>
+      <if test="sgjcqkSfcydj != null">
+        #{sgjcqkSfcydj,jdbcType=VARCHAR},
+      </if>
+      <if test="sgjcqkJsdw != null">
+        #{sgjcqkJsdw,jdbcType=VARCHAR},
+      </if>
+      <if test="sgjcqkYzdw != null">
+        #{sgjcqkYzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="sgjcqkTjjdbfl != null">
+        #{sgjcqkTjjdbfl,jdbcType=DECIMAL},
+      </if>
+      <if test="sgjcqkNsgcjdbfl != null">
+        #{sgjcqkNsgcjdbfl,jdbcType=DECIMAL},
+      </if>
+      <if test="ptgcHjgcjdbfl != null">
+        #{ptgcHjgcjdbfl,jdbcType=DECIMAL},
+      </if>
+      <if test="sfysbyjsy != null">
+        #{sfysbyjsy,jdbcType=VARCHAR},
+      </if>
+      <if test="czqtjdc != null">
+        #{czqtjdc,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="tjzq != null">
+        #{tjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="tbr != null">
+        #{tbr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteDeptData">
+    delete from jkwww_sswsqsbjshmsjcssjsxmjdzb
+    where BMBH = #{deptCode,jdbcType=VARCHAR} and TJZQ = #{countRate,jdbcType=VARCHAR}
+  </delete>
+
+  <resultMap id="detailResultMap" type="cn.gz.rd.datacollection.model.JkwwProjectScheduleSummary">
+    <id column="XMXH" jdbcType="INTEGER" property="xmxh" />
+    <result column="XMBM" jdbcType="VARCHAR" property="xmbm" />
+    <result column="SFWZDXM" jdbcType="VARCHAR" property="sfwzdxm" />
+    <result column="ZDXMXH" jdbcType="INTEGER" property="zdxmxh" />
+    <result column="SFWGCBZXM" jdbcType="VARCHAR" property="sfwgcbzxm" />
+    <result column="GCBZXMXH" jdbcType="INTEGER" property="gcbzxmxh" />
+    <result column="FL" jdbcType="VARCHAR" property="fl" />
+    <result column="ZT" jdbcType="VARCHAR" property="zt" />
+    <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+    <result column="ZGBM" jdbcType="VARCHAR" property="zgbm" />
+    <result column="XMYZ" jdbcType="VARCHAR" property="xmyz" />
+    <result column="XMGMHJSNR" jdbcType="VARCHAR" property="xmgmhjsnr" />
+    <result column="JHKGSJN" jdbcType="INTEGER" property="jhkgsjn" />
+    <result column="JHKGSJY" jdbcType="INTEGER" property="jhkgsjy" />
+    <result column="YJJCSJN" jdbcType="INTEGER" property="yjjcsjn" />
+    <result column="YJJCSJY" jdbcType="INTEGER" property="yjjcsjy" />
+    <result column="XMZTZZE" jdbcType="DECIMAL" property="xmztzze" />
+    <result column="XMZTZCZZJ" jdbcType="DECIMAL" property="xmztzczzj" />
+
+    <result column="LDQGZ_SFZDSGZXFA" jdbcType="VARCHAR" property="ldqgzSfzdsgzxfa" />
+    <result column="LDQGZ_ZDQKWCL" jdbcType="DECIMAL" property="ldqgzZdqkwcl" />
+    <result column="LDQGZ_SFQDJSSGXKZ" jdbcType="VARCHAR" property="ldqgzSfqdjssgxkz" />
+    <result column="LDQGZ_YDZBQKWCL" jdbcType="DECIMAL" property="ldqgzYdzbqkwcl" />
+    <result column="LDQGZ_YSSFPF" jdbcType="VARCHAR" property="ldqgzYssfpf" />
+    <result column="SGJCQK_ZTBSFWC" jdbcType="VARCHAR" property="sgjcqkZtbsfwc" />
+    <result column="SGJCQK_SFCYDJ" jdbcType="VARCHAR" property="sgjcqkSfcydj" />
+    <result column="SGJCQK_JSDW" jdbcType="VARCHAR" property="sgjcqkJsdw" />
+    <result column="SGJCQK_YZDW" jdbcType="VARCHAR" property="sgjcqkYzdw" />
+    <result column="SGJCQK_TJJDBFL" jdbcType="DECIMAL" property="sgjcqkTjjdbfl" />
+    <result column="SGJCQK_NSGCJDBFL" jdbcType="DECIMAL" property="sgjcqkNsgcjdbfl" />
+    <result column="PTGC_HJGCJDBFL" jdbcType="DECIMAL" property="ptgcHjgcjdbfl" />
+    <result column="SFYSBYJSY" jdbcType="VARCHAR" property="sfysbyjsy" />
+    <result column="CZQTJDC" jdbcType="VARCHAR" property="czqtjdc" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <select id="selectDeptData" resultMap="detailResultMap">
+    SELECT a.*, b.*
+    FROM jkwww_msjcssxmjcxxb a, jkwww_sswsqsbjshmsjcssjsxmjdzb b
+    WHERE a.`XMXH` = b.`XMXH`
+    <if test="deptCode != null">
+      AND b.`BMBH` = #{deptCode,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND b.`tjzq` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    ORDER BY a.`XMXH`
+  </select>
+
+  <select id="selectKeyPrjScheduleSummary" parameterType="java.lang.String"
+          resultMap="BaseResultMap">
+    SELECT
+        b.*
+    FROM
+        jkwww_msjcssxmjcxxb a,
+        jkwww_sswsqsbjshmsjcssjsxmjdzb b
+    WHERE a.`XMXH` = b.`XMXH`
+        AND a.`SFWZDXM` = '是'
+        AND b.`TJZQ` = #{countRate,jdbcType=VARCHAR}
+    ORDER BY a.`XMXH`
+  </select>
+
+  <select id="selectScheduleSummary" resultMap="detailResultMap">
+    SELECT xm.*, jd.*
+    FROM jkwww_msjcssxmjcxxb xm, jkwww_sswsqsbjshmsjcssjsxmjdzb jd
+    WHERE xm.xmxh = jd.xmxh
+    <if test="className != null">
+      AND xm.`FL` = #{className,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      AND xm.`ZT` = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="mainDeptName != null">
+      AND xm.`ZGBM` LIKE #{mainDeptName,jdbcType=VARCHAR}
+    </if>
+    <if test="ownerName != null">
+      AND xm.`XMYZ` LIKE #{ownerName,jdbcType=VARCHAR}
+    </if>
+    <if test="projectName != null">
+      AND xm.`XMMC` LIKE #{projectName,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND jd.`TJZQ` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    <if test="isKeyPrj != null and isKeyPrj == true">
+      AND xm.`SFWZDXM` = '是'
+    </if>
+    <if test="isKeyPrj != null and isKeyPrj == false">
+      AND xm.`SFWZDXM` = '否'
+    </if>
+    ORDER BY xm.xmxh
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="countScheduleSummary" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM jkwww_msjcssxmjcxxb xm, jkwww_sswsqsbjshmsjcssjsxmjdzb jd
+    WHERE xm.xmxh = jd.xmxh
+    <if test="className != null">
+      AND xm.`FL` = #{className,jdbcType=VARCHAR}
+    </if>
+    <if test="status != null">
+      AND xm.`ZT` = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="mainDeptName != null">
+      AND xm.`ZGBM` LIKE #{mainDeptName,jdbcType=VARCHAR}
+    </if>
+    <if test="ownerName != null">
+      AND xm.`XMYZ` LIKE #{ownerName,jdbcType=VARCHAR}
+    </if>
+    <if test="projectName != null">
+      AND xm.`XMMC` LIKE #{projectName,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND jd.`TJZQ` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    <if test="isKeyPrj != null and isKeyPrj == true">
+      AND xm.`SFWZDXM` = '是'
+    </if>
+    <if test="isKeyPrj != null and isKeyPrj == false">
+      AND xm.`SFWZDXM` = '否'
+    </if>
+  </select>
+
+</mapper>

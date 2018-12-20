@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwProblemScheduleMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwProblemSchedule">
+    <result column="LSYLWT" jdbcType="VARCHAR" property="lsylwt" />
+    <result column="QTDW" jdbcType="VARCHAR" property="qtdw" />
+    <result column="FLJLTZQK" jdbcType="VARCHAR" property="fljltzqk" />
+    <result column="GZJZYXQK" jdbcType="VARCHAR" property="gzjzyxqk" />
+    <result column="ZDFLJJHXGGZJHQK" jdbcType="VARCHAR" property="zdfljjhxggzjhqk" />
+    <result column="CTXGZCQK" jdbcType="VARCHAR" property="ctxgzcqk" />
+    <result column="ZXJZQK" jdbcType="VARCHAR" property="zxjzqk" />
+    <result column="YJHSYQK" jdbcType="VARCHAR" property="yjhsyqk" />
+    <result column="CZWTJDC" jdbcType="VARCHAR" property="czwtjdc" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+  </resultMap>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwProblemSchedule">
+    insert into jkwww_jjlsylwtjdb (LSYLWT, QTDW, FLJLTZQK, 
+      GZJZYXQK, ZDFLJJHXGGZJHQK, CTXGZCQK, 
+      ZXJZQK, YJHSYQK, CZWTJDC, 
+      TBR, LXDH, TJZQ, BMBH
+      )
+    values (#{lsylwt,jdbcType=VARCHAR}, #{qtdw,jdbcType=VARCHAR}, #{fljltzqk,jdbcType=VARCHAR}, 
+      #{gzjzyxqk,jdbcType=VARCHAR}, #{zdfljjhxggzjhqk,jdbcType=VARCHAR}, #{ctxgzcqk,jdbcType=VARCHAR}, 
+      #{zxjzqk,jdbcType=VARCHAR}, #{yjhsyqk,jdbcType=VARCHAR}, #{czwtjdc,jdbcType=VARCHAR}, 
+      #{tbr,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR}, #{tjzq,jdbcType=VARCHAR}, #{bmbh,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwProblemSchedule">
+    insert into jkwww_jjlsylwtjdb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="lsylwt != null">
+        LSYLWT,
+      </if>
+      <if test="qtdw != null">
+        QTDW,
+      </if>
+      <if test="fljltzqk != null">
+        FLJLTZQK,
+      </if>
+      <if test="gzjzyxqk != null">
+        GZJZYXQK,
+      </if>
+      <if test="zdfljjhxggzjhqk != null">
+        ZDFLJJHXGGZJHQK,
+      </if>
+      <if test="ctxgzcqk != null">
+        CTXGZCQK,
+      </if>
+      <if test="zxjzqk != null">
+        ZXJZQK,
+      </if>
+      <if test="yjhsyqk != null">
+        YJHSYQK,
+      </if>
+      <if test="czwtjdc != null">
+        CZWTJDC,
+      </if>
+      <if test="tbr != null">
+        TBR,
+      </if>
+      <if test="lxdh != null">
+        LXDH,
+      </if>
+      <if test="tjzq != null">
+        TJZQ,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="lsylwt != null">
+        #{lsylwt,jdbcType=VARCHAR},
+      </if>
+      <if test="qtdw != null">
+        #{qtdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fljltzqk != null">
+        #{fljltzqk,jdbcType=VARCHAR},
+      </if>
+      <if test="gzjzyxqk != null">
+        #{gzjzyxqk,jdbcType=VARCHAR},
+      </if>
+      <if test="zdfljjhxggzjhqk != null">
+        #{zdfljjhxggzjhqk,jdbcType=VARCHAR},
+      </if>
+      <if test="ctxgzcqk != null">
+        #{ctxgzcqk,jdbcType=VARCHAR},
+      </if>
+      <if test="zxjzqk != null">
+        #{zxjzqk,jdbcType=VARCHAR},
+      </if>
+      <if test="yjhsyqk != null">
+        #{yjhsyqk,jdbcType=VARCHAR},
+      </if>
+      <if test="czwtjdc != null">
+        #{czwtjdc,jdbcType=VARCHAR},
+      </if>
+      <if test="tbr != null">
+        #{tbr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+      <if test="tjzq != null">
+        #{tjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteDeptData">
+    delete from jkwww_jjlsylwtjdb
+    where BMBH = #{deptCode,jdbcType=VARCHAR} and TJZQ = #{countRate,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="selectDeptData" resultMap="BaseResultMap">
+    select * from jkwww_jjlsylwtjdb
+    <where>
+      <if test="deptCode != null">
+        AND BMBH = #{deptCode,jdbcType=VARCHAR}
+      </if>
+      <if test="countRate != null">
+        AND tjzq = #{countRate,jdbcType=VARCHAR}
+      </if>
+    </where>
+    ORDER BY ID
+  </select>
+
+</mapper>

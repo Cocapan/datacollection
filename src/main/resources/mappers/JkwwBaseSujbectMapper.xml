@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwBaseSujbectMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwBaseSujbect">
+    <id column="XH" jdbcType="INTEGER" property="xh" />
+    <result column="ZTMC" jdbcType="VARCHAR" property="ztmc" />
+    <result column="YLLJ" jdbcType="VARCHAR" property="yllj" />
+    <result column="CCLJ" jdbcType="VARCHAR" property="cclj" />
+    <result column="GXR" jdbcType="VARCHAR" property="gxr" />
+    <result column="GXSJ" jdbcType="TIMESTAMP" property="gxsj" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    XH, ZTMC, YLLJ, CCLJ, GXR, GXSJ
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+      <include refid="Base_Column_List" />
+    from jkwww_jcztxxb
+    where XH = #{xh,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from jkwww_jcztxxb
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_jcztxxb
+    where XH = #{xh,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwBaseSujbect">
+    insert into jkwww_jcztxxb (
+      XH, ZTMC, YLLJ, CCLJ, GXR, GXSJ
+    )
+    values (
+      #{xh,jdbcType=INTEGER}, #{ztmc,jdbcType=VARCHAR},
+      #{yllj,jdbcType=VARCHAR}, #{cclj,jdbcType=VARCHAR}, #{gxr,jdbcType=VARCHAR},
+      #{gxsj,jdbcType=TIMESTAMP}
+    )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwBaseSujbect">
+    insert into jkwww_jcztxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        XH,
+      </if>
+      <if test="ztmc != null">
+        ZTMC,
+      </if>
+      <if test="yllj != null">
+        YLLJ,
+      </if>
+      <if test="cclj != null">
+        CCLJ,
+      </if>
+      <if test="gxr != null">
+        GXR,
+      </if>
+      <if test="gxsj != null">
+        GXSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="ztmc != null">
+        #{ztmc,jdbcType=VARCHAR},
+      </if>
+      <if test="yllj != null">
+        #{yllj,jdbcType=VARCHAR},
+      </if>
+      <if test="cclj != null">
+        #{cclj,jdbcType=VARCHAR},
+      </if>
+      <if test="gxr != null">
+        #{gxr,jdbcType=VARCHAR},
+      </if>
+      <if test="gxsj != null">
+        #{gxsj,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.JkwwBaseSujbect">
+    update jkwww_jcztxxb
+    <set>
+      <if test="ztmc != null">
+        ZTMC = #{ztmc,jdbcType=VARCHAR},
+      </if>
+      <if test="yllj != null">
+        YLLJ = #{yllj,jdbcType=VARCHAR},
+      </if>
+      <if test="cclj != null">
+        CCLJ = #{cclj,jdbcType=VARCHAR},
+      </if>
+      <if test="gxr != null">
+        GXR = #{gxr,jdbcType=VARCHAR},
+      </if>
+      <if test="gxsj != null">
+        GXSJ = #{gxsj,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.JkwwBaseSujbect">
+    update jkwww_jcztxxb
+    set ZTMC = #{ztmc,jdbcType=VARCHAR},
+      YLLJ = #{yllj,jdbcType=VARCHAR},
+      CCLJ = #{cclj,jdbcType=VARCHAR},
+      GXR = #{gxr,jdbcType=VARCHAR},
+      GXSJ = #{gxsj,jdbcType=TIMESTAMP}
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+</mapper>

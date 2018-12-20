@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwResidenceProblemScheduleMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwResidenceProblemSchedule">
+    <result column="XMBH" jdbcType="INTEGER" property="xmbh" />
+    <result column="JJSLHJHWCSJ" jdbcType="VARCHAR" property="jjslhjhwcsj" />
+    <result column="JDQK" jdbcType="VARCHAR" property="jdqk" />
+    <result column="BJSJ" jdbcType="VARCHAR" property="bjsj" />
+    <result column="JJFA" jdbcType="VARCHAR" property="jjfa" />
+    <result column="SFWC" jdbcType="VARCHAR" property="sfwc" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwResidenceProblemSchedule">
+    insert into jkwww_jzqptssjsyjlsylwttz (XMBH, JJSLHJHWCSJ, JDQK, 
+      BJSJ, JJFA, SFWC, TJZQ, 
+      BMBH, TBR, LXDH)
+    values (#{xmbh,jdbcType=INTEGER}, #{jjslhjhwcsj,jdbcType=VARCHAR}, #{jdqk,jdbcType=VARCHAR}, 
+      #{bjsj,jdbcType=VARCHAR}, #{jjfa,jdbcType=VARCHAR}, #{sfwc,jdbcType=VARCHAR}, #{tjzq,jdbcType=VARCHAR}, 
+      #{bmbh,jdbcType=VARCHAR}, #{tbr,jdbcType=VARCHAR}, #{lxdh,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwResidenceProblemSchedule">
+    insert into jkwww_jzqptssjsyjlsylwttz
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        XMBH,
+      </if>
+      <if test="jjslhjhwcsj != null">
+        JJSLHJHWCSJ,
+      </if>
+      <if test="jdqk != null">
+        JDQK,
+      </if>
+      <if test="bjsj != null">
+        BJSJ,
+      </if>
+      <if test="jjfa != null">
+        JJFA,
+      </if>
+      <if test="sfwc != null">
+        SFWC,
+      </if>
+      <if test="tjzq != null">
+        TJZQ,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+      <if test="tbr != null">
+        TBR,
+      </if>
+      <if test="lxdh != null">
+        LXDH,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        #{xmbh,jdbcType=INTEGER},
+      </if>
+      <if test="jjslhjhwcsj != null">
+        #{jjslhjhwcsj,jdbcType=VARCHAR},
+      </if>
+      <if test="jdqk != null">
+        #{jdqk,jdbcType=VARCHAR},
+      </if>
+      <if test="bjsj != null">
+        #{bjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="jjfa != null">
+        #{jjfa,jdbcType=VARCHAR},
+      </if>
+      <if test="sfwc != null">
+        #{sfwc,jdbcType=VARCHAR},
+      </if>
+      <if test="tjzq != null">
+        #{tjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="tbr != null">
+        #{tbr,jdbcType=VARCHAR},
+      </if>
+      <if test="lxdh != null">
+        #{lxdh,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <delete id="deleteDeptData">
+    delete from jkwww_jzqptssjsyjlsylwttz
+    where BMBH = #{deptCode,jdbcType=VARCHAR} and TJZQ = #{countRate,jdbcType=VARCHAR}
+  </delete>
+
+  <resultMap id="detailResultMap" type="cn.gz.rd.datacollection.model.JkwwResidenceBaseInfo">
+    <id column="XMBH" jdbcType="INTEGER" property="xmbh" />
+    <result column="ZGBM" jdbcType="VARCHAR" property="zgbm" />
+    <result column="XQMC" jdbcType="VARCHAR" property="xqmc" />
+    <result column="SSQ" jdbcType="VARCHAR" property="ssq" />
+    <result column="DZ" jdbcType="VARCHAR" property="dz" />
+    <result column="KFQY" jdbcType="VARCHAR" property="kfqy" />
+    <result column="SSMC" jdbcType="VARCHAR" property="ssmc" />
+    <result column="XZ" jdbcType="VARCHAR" property="xz" />
+    <result column="CZWT" jdbcType="VARCHAR" property="czwt" />
+    <result column="LX" jdbcType="VARCHAR" property="lx" />
+    <result column="JJSLHJHWCSJ" jdbcType="VARCHAR" property="jjslhjhwcsj" />
+    <result column="JDQK" jdbcType="VARCHAR" property="jdqk" />
+    <result column="BJSJ" jdbcType="VARCHAR" property="bjsj" />
+    <result column="JJFA" jdbcType="VARCHAR" property="jjfa" />
+    <result column="SFWC" jdbcType="VARCHAR" property="sfwc" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+  </resultMap>
+
+  <select id="selectDeptData" resultMap="detailResultMap">
+    SELECT a.*, b.*
+    FROM jkwww_jzqjcxxb a, jkwww_jzqptssjsyjlsylwttz b
+    WHERE a.`XMBH` = b.`XMBH`
+    <if test="deptCode != null">
+      AND b.`BMBH` = #{deptCode,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND b.`tjzq` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    ORDER BY a.`XMBH`
+  </select>
+
+  <select id="selectResidenceLedger" resultType="cn.gz.rd.datacollection.model.JkwwResidenceLedger">
+    SELECT
+      IFNULL(a.`LX`, '合计') AS typeName,
+      COUNT(a.`SSQ`) AS total,
+      COUNT(IF(a.`SSQ` = '越秀区', 1, NULL)) AS yxq,
+      COUNT(IF(a.`SSQ` = '海珠区', 1, NULL)) AS hzq,
+      COUNT(IF(a.`SSQ` = '荔湾区', 1, NULL)) AS lwq,
+      COUNT(IF(a.`SSQ` = '天河区', 1, NULL)) AS thq,
+      COUNT(IF(a.`SSQ` = '白云区', 1, NULL)) AS byq,
+      COUNT(IF(a.`SSQ` = '黄埔区', 1, NULL)) AS hpq,
+      COUNT(IF(a.`SSQ` = '花都区', 1, NULL)) AS hdq,
+      COUNT(IF(a.`SSQ` = '番禺区', 1, NULL)) AS pyq,
+      COUNT(IF(a.`SSQ` = '南沙区', 1, NULL)) AS nsq,
+      COUNT(IF(a.`SSQ` = '从化区', 1, NULL)) AS chq,
+      COUNT(IF(a.`SSQ` = '增城区', 1, NULL)) AS zcq
+    FROM
+      jkwww_jzqjcxxb a,
+      jkwww_jzqptssjsyjlsylwttz b
+    WHERE a.`XMBH` = b.`XMBH`
+    <if test="countRate != null">
+      AND b.`TJZQ` = #{countRate,jdbcType=VARCHAR}
+    </if>
+    <if test="deptName != null">
+      AND a.`ZGBM` = #{deptName,jdbcType=VARCHAR}
+    </if>
+    GROUP BY a.`LX` WITH ROLLUP
+  </select>
+
+</mapper>

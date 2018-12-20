@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwPrjSummaryDbMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwPrjSummaryDb">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="className" jdbcType="VARCHAR" property="classname" />
+    <result column="zdsgzxfa" jdbcType="VARCHAR" property="zdsgzxfa" />
+    <result column="zdqk" jdbcType="VARCHAR" property="zdqk" />
+    <result column="qdjssgxkzqk" jdbcType="VARCHAR" property="qdjssgxkzqk" />
+    <result column="ydzbqk" jdbcType="VARCHAR" property="ydzbqk" />
+    <result column="yspfqk" jdbcType="VARCHAR" property="yspfqk" />
+    <result column="ztbqk" jdbcType="VARCHAR" property="ztbqk" />
+    <result column="djdw" jdbcType="VARCHAR" property="djdw" />
+    <result column="tjjdqk" jdbcType="VARCHAR" property="tjjdqk" />
+    <result column="nsgcqk" jdbcType="VARCHAR" property="nsgcqk" />
+    <result column="ptgchjgcqk" jdbcType="VARCHAR" property="ptgchjgcqk" />
+    <result column="ysyjsyqk" jdbcType="VARCHAR" property="ysyjsyqk" />
+    <result column="czwtjdc" jdbcType="VARCHAR" property="czwtjdc" />
+    <result column="tjzq" jdbcType="VARCHAR" property="tjzq" />
+
+    <result column="zdsgzxfa_num" jdbcType="VARCHAR" property="zdsgzxfaNum" />
+    <result column="zdqk_num" jdbcType="VARCHAR" property="zdqkNum" />
+    <result column="qdjssgxkzqk_num" jdbcType="VARCHAR" property="qdjssgxkzqkNum" />
+    <result column="ydzbqk_num" jdbcType="VARCHAR" property="ydzbqkNum" />
+    <result column="yspfqk_num" jdbcType="VARCHAR" property="yspfqkNum" />
+    <result column="ztbqk_num" jdbcType="VARCHAR" property="ztbqkNum" />
+    <result column="djdw_num" jdbcType="VARCHAR" property="djdwNum" />
+    <result column="tjjdqk_num" jdbcType="VARCHAR" property="tjjdqkNum" />
+    <result column="nsgcqk_num" jdbcType="VARCHAR" property="nsgcqkNum" />
+    <result column="ptgchjgcqk_num" jdbcType="VARCHAR" property="ptgchjgcqkNum" />
+    <result column="ysyjsyqk_num" jdbcType="VARCHAR" property="ysyjsyqkNum" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, className, zdsgzxfa, zdqk, qdjssgxkzqk, ydzbqk, yspfqk, ztbqk, djdw, tjjdqk, 
+    nsgcqk, ptgchjgcqk, ysyjsyqk, czwtjdc,zdsgzxfa_num,zdqk_num,qdjssgxkzqk_num,ydzbqk_num,
+    yspfqk_num,ztbqk_num,djdw_num,tjjdqk_num,nsgcqk_num,ptgchjgcqk_num,ysyjsyqk_num,tjzq
+  </sql>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_sswsqsbjshmsjcssjsxmjdzb_hzb
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwPrjSummaryDb">
+    insert into jkwww_sswsqsbjshmsjcssjsxmjdzb_hzb (className, zdsgzxfa,
+      zdqk, qdjssgxkzqk, ydzbqk, 
+      yspfqk, ztbqk, djdw, 
+      tjjdqk, nsgcqk, ptgchjgcqk, 
+      ysyjsyqk, tjzq,
+      zdsgzxfa_num, zdqk_num, qdjssgxkzqk_num, ydzbqk_num,
+      yspfqk_num, ztbqk_num, djdw_num, tjjdqk_num, nsgcqk_num, ptgchjgcqk_num, ysyjsyqk_num, czwtjdc)
+    values (#{classname,jdbcType=VARCHAR}, #{zdsgzxfa,jdbcType=VARCHAR},
+      #{zdqk,jdbcType=VARCHAR}, #{qdjssgxkzqk,jdbcType=VARCHAR}, #{ydzbqk,jdbcType=VARCHAR}, 
+      #{yspfqk,jdbcType=VARCHAR}, #{ztbqk,jdbcType=VARCHAR}, #{djdw,jdbcType=VARCHAR}, 
+      #{tjjdqk,jdbcType=VARCHAR}, #{nsgcqk,jdbcType=VARCHAR}, #{ptgchjgcqk,jdbcType=VARCHAR}, 
+      #{ysyjsyqk,jdbcType=VARCHAR}, #{tjzq,jdbcType=VARCHAR},
+      #{zdsgzxfaNum,jdbcType=INTEGER},
+      #{zdqkNum,jdbcType=INTEGER}, #{qdjssgxkzqkNum,jdbcType=INTEGER}, #{ydzbqkNum,jdbcType=INTEGER},
+      #{yspfqkNum,jdbcType=INTEGER}, #{ztbqkNum,jdbcType=INTEGER}, #{djdwNum,jdbcType=INTEGER},
+      #{tjjdqkNum,jdbcType=INTEGER}, #{nsgcqkNum,jdbcType=INTEGER}, #{ptgchjgcqkNum,jdbcType=INTEGER},
+      #{ysyjsyqkNum,jdbcType=INTEGER}, #{czwtjdc,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwPrjSummaryDb">
+    insert into jkwww_sswsqsbjshmsjcssjsxmjdzb_hzb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="classname != null">
+        className,
+      </if>
+      <if test="zdsgzxfa != null">
+        zdsgzxfa,
+      </if>
+      <if test="zdqk != null">
+        zdqk,
+      </if>
+      <if test="qdjssgxkzqk != null">
+        qdjssgxkzqk,
+      </if>
+      <if test="ydzbqk != null">
+        ydzbqk,
+      </if>
+      <if test="yspfqk != null">
+        yspfqk,
+      </if>
+      <if test="ztbqk != null">
+        ztbqk,
+      </if>
+      <if test="djdw != null">
+        djdw,
+      </if>
+      <if test="tjjdqk != null">
+        tjjdqk,
+      </if>
+      <if test="nsgcqk != null">
+        nsgcqk,
+      </if>
+      <if test="ptgchjgcqk != null">
+        ptgchjgcqk,
+      </if>
+      <if test="ysyjsyqk != null">
+        ysyjsyqk,
+      </if>
+      <if test="tjzq != null">
+        tjzq,
+      </if>
+
+      <if test="zdsgzxfaNum != null">
+        zdsgzxfa_num,
+      </if>
+      <if test="zdqkNum != null">
+        zdqk_num,
+      </if>
+      <if test="qdjssgxkzqkNum != null">
+        qdjssgxkzqk_num,
+      </if>
+      <if test="ydzbqkNum != null">
+        ydzbqk_num,
+      </if>
+      <if test="yspfqkNum != null">
+        yspfqk_num,
+      </if>
+      <if test="ztbqkNum != null">
+        ztbqk_num,
+      </if>
+      <if test="djdwNum != null">
+        djdw_num,
+      </if>
+      <if test="tjjdqkNum != null">
+        tjjdqk_num,
+      </if>
+      <if test="nsgcqkNum != null">
+        nsgcqk_num,
+      </if>
+      <if test="ptgchjgcqkNum != null">
+        ptgchjgcqk_num,
+      </if>
+      <if test="ysyjsyqkNum != null">
+        ysyjsyqk_num,
+      </if>
+      <if test="czwtjdc != null">
+        czwtjdc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classname != null">
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="zdsgzxfa != null">
+        #{zdsgzxfa,jdbcType=VARCHAR},
+      </if>
+      <if test="zdqk != null">
+        #{zdqk,jdbcType=VARCHAR},
+      </if>
+      <if test="qdjssgxkzqk != null">
+        #{qdjssgxkzqk,jdbcType=VARCHAR},
+      </if>
+      <if test="ydzbqk != null">
+        #{ydzbqk,jdbcType=VARCHAR},
+      </if>
+      <if test="yspfqk != null">
+        #{yspfqk,jdbcType=VARCHAR},
+      </if>
+      <if test="ztbqk != null">
+        #{ztbqk,jdbcType=VARCHAR},
+      </if>
+      <if test="djdw != null">
+        #{djdw,jdbcType=VARCHAR},
+      </if>
+      <if test="tjjdqk != null">
+        #{tjjdqk,jdbcType=VARCHAR},
+      </if>
+      <if test="nsgcqk != null">
+        #{nsgcqk,jdbcType=VARCHAR},
+      </if>
+      <if test="ptgchjgcqk != null">
+        #{ptgchjgcqk,jdbcType=VARCHAR},
+      </if>
+      <if test="ysyjsyqk != null">
+        #{ysyjsyqk,jdbcType=VARCHAR},
+      </if>
+      <if test="tjzq != null">
+        #{tjzq,jdbcType=VARCHAR},
+      </if>
+
+      <if test="zdsgzxfaNum != null">
+        #{zdsgzxfaNum,jdbcType=INTEGER},
+      </if>
+      <if test="zdqkNum != null">
+        #{zdqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="qdjssgxkzqkNum != null">
+        #{qdjssgxkzqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="ydzbqkNum != null">
+        #{ydzbqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="yspfqkNum != null">
+        #{yspfqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="ztbqkNum != null">
+        #{ztbqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="djdwNum != null">
+        #{djdwNum,jdbcType=INTEGER},
+      </if>
+      <if test="tjjdqkNum != null">
+        #{tjjdqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="nsgcqkNum != null">
+        #{nsgcqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="ptgchjgcqkNum != null">
+        #{ptgchjgcqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="ysyjsyqkNum != null">
+        #{ysyjsyqkNum,jdbcType=INTEGER},
+      </if>
+      <if test="czwtjdc != null">
+        #{czwtjdc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwResidenceBaseInfoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwResidenceBaseInfo">
+    <result column="XMBH" jdbcType="INTEGER" property="xmbh" />
+    <result column="ZGBM" jdbcType="VARCHAR" property="zgbm" />
+    <result column="XQMC" jdbcType="VARCHAR" property="xqmc" />
+    <result column="SSQ" jdbcType="VARCHAR" property="ssq" />
+    <result column="DZ" jdbcType="VARCHAR" property="dz" />
+    <result column="KFQY" jdbcType="VARCHAR" property="kfqy" />
+    <result column="SSMC" jdbcType="VARCHAR" property="ssmc" />
+    <result column="XZ" jdbcType="VARCHAR" property="xz" />
+    <result column="CZWT" jdbcType="VARCHAR" property="czwt" />
+    <result column="LX" jdbcType="VARCHAR" property="lx" />
+    <result column="JJSLHJHWCSJ" jdbcType="VARCHAR" property="jjslhjhwcsj" />
+  </resultMap>
+
+  <delete id="deleteAll">
+    delete from jkwww_jzqjcxxb
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwResidenceBaseInfo">
+    insert into jkwww_jzqjcxxb (XMBH, ZGBM, XQMC, 
+      SSQ, DZ, KFQY, SSMC, 
+      XZ, CZWT, LX, JJSLHJHWCSJ)
+    values (#{xmbh,jdbcType=INTEGER}, #{zgbm,jdbcType=VARCHAR}, #{xqmc,jdbcType=VARCHAR}, 
+      #{ssq,jdbcType=VARCHAR}, #{dz,jdbcType=VARCHAR}, #{kfqy,jdbcType=VARCHAR}, #{ssmc,jdbcType=VARCHAR}, 
+      #{xz,jdbcType=VARCHAR}, #{czwt,jdbcType=VARCHAR}, #{lx,jdbcType=VARCHAR}, #{jjslhjhwcsj,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwResidenceBaseInfo">
+    insert into jkwww_jzqjcxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        XMBH,
+      </if>
+      <if test="zgbm != null">
+        ZGBM,
+      </if>
+      <if test="xqmc != null">
+        XQMC,
+      </if>
+      <if test="ssq != null">
+        SSQ,
+      </if>
+      <if test="dz != null">
+        DZ,
+      </if>
+      <if test="kfqy != null">
+        KFQY,
+      </if>
+      <if test="ssmc != null">
+        SSMC,
+      </if>
+      <if test="xz != null">
+        XZ,
+      </if>
+      <if test="czwt != null">
+        CZWT,
+      </if>
+      <if test="lx != null">
+        LX,
+      </if>
+      <if test="jjslhjhwcsj != null">
+        JJSLHJHWCSJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xmbh != null">
+        #{xmbh,jdbcType=INTEGER},
+      </if>
+      <if test="zgbm != null">
+        #{zgbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xqmc != null">
+        #{xqmc,jdbcType=VARCHAR},
+      </if>
+      <if test="ssq != null">
+        #{ssq,jdbcType=VARCHAR},
+      </if>
+      <if test="dz != null">
+        #{dz,jdbcType=VARCHAR},
+      </if>
+      <if test="kfqy != null">
+        #{kfqy,jdbcType=VARCHAR},
+      </if>
+      <if test="ssmc != null">
+        #{ssmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xz != null">
+        #{xz,jdbcType=VARCHAR},
+      </if>
+      <if test="czwt != null">
+        #{czwt,jdbcType=VARCHAR},
+      </if>
+      <if test="lx != null">
+        #{lx,jdbcType=VARCHAR},
+      </if>
+      <if test="jjslhjhwcsj != null">
+        #{jjslhjhwcsj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

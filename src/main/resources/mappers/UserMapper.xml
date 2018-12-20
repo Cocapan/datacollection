@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.UserMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <result column="working_committee_id" jdbcType="VARCHAR" property="workingCommitteeId" />
+    <result column="role" jdbcType="VARCHAR" property="role" />
+  </resultMap>
+
+  <resultMap id="loginResultMap" type="cn.gz.rd.datacollection.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+    <result column="working_committee_id" jdbcType="VARCHAR" property="workingCommitteeId" />
+  </resultMap>
+
+  <select id="countAll" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM jkwww_cgjjcxxb
+  </select>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.User">
+    insert into gzrd_sjcj_yhxxb (XH, YHNC, YHM,
+    MM, SSBM, SSGW)
+    values (#{XH,jdbcType=INTEGER}, #{YHNC,jdbcType=VARCHAR}, #{YHM,jdbcType=VARCHAR},
+    #{MM,jdbcType=VARCHAR}, #{SSBM,jdbcType=VARCHAR}, #{SSGW,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="selectByAccount" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+      XH AS id,
+      YHNC AS user_name,
+      YHM AS account,
+      SSBM AS department_id,
+      SSGW AS working_committee_id,
+      JS AS role
+    from gzrd_sjcj_yhxxb
+    where YHM = #{account,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectByAccountAndPw" parameterType="cn.gz.rd.datacollection.model.User" resultMap="loginResultMap">
+    select
+      XH AS id,
+      YHNC AS user_name,
+      SSBM AS department_id,
+      SSGW AS working_committee_id,
+      JS AS role,
+      YHM AS account
+    from gzrd_sjcj_yhxxb
+    where YHM = #{account,jdbcType=VARCHAR} AND MM = #{password,jdbcType=VARCHAR}
+  </select>
+
+  <update id="updatePasswd">
+    update gzrd_sjcj_yhxxb
+    set MM = #{password,jdbcType=VARCHAR}
+    where YHM = #{userName,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectPhoneNumberByDepartmentId" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT SJHM FROM renda.gzrd_sjcj_yhxxb WHERE SSBM =  #{departmentId,jdbcType=VARCHAR};
+  </select>
+
+</mapper>

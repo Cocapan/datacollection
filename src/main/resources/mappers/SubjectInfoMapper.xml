@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.SubjectInfoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.SubjectInfo">
+    <id column="subject_code" jdbcType="VARCHAR" property="subjectCode" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+    <result column="parent_subject_code" jdbcType="VARCHAR" property="parentSubjectCode" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="subject_type" jdbcType="VARCHAR" property="subjectType" />
+    <result column="save_location" jdbcType="VARCHAR" property="saveLocation" />
+    <result column="upload_frequency" jdbcType="VARCHAR" property="uploadFrequency" />
+    <result column="upload_deadline" jdbcType="INTEGER" property="uploadDeadline" />
+    <result column="template_path" jdbcType="VARCHAR" property="templatePath" />
+    <result column="data_start_row" jdbcType="INTEGER" property="dataStartRow" />
+    <result column="column_num" jdbcType="INTEGER" property="columnNum" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="committee_code" jdbcType="VARCHAR" property="committeeCode" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="create_user_code" jdbcType="VARCHAR" property="createUserCode" />
+    <result column="update_user_code" jdbcType="VARCHAR" property="updateUserCode" />
+    <result column="enable_flag" jdbcType="INTEGER" property="enableFlag" />
+    <result column="usable_flag" jdbcType="INTEGER" property="usableFlag" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="committee_name" jdbcType="VARCHAR" property="committeeName" />
+  </resultMap>
+
+  <resultMap id="parentSubjectMap" type="cn.gz.rd.datacollection.model.SubjectInfo">
+    <id column="subject_code" jdbcType="VARCHAR" property="subjectCode" />
+    <result column="subject_name" jdbcType="VARCHAR" property="subjectName" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    subject_code, subject_name, parent_subject_code,
+    level, subject_type, save_location,
+    upload_frequency, upload_deadline, template_path,
+    data_start_row, column_num, dept_code,
+    committee_code, comment, create_date, update_date,
+    create_user_code, update_user_code, enable_flag, usable_flag
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gzrd_subject_info
+    where subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from gzrd_subject_info
+    where subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.SubjectInfo">
+    insert into gzrd_subject_info (subject_code, subject_name, parent_subject_code, 
+      level, subject_type, save_location, 
+      upload_frequency, upload_deadline, template_path, 
+      data_start_row, column_num, dept_code, 
+      committee_code, comment, create_date, 
+      update_date, create_user_code, update_user_code, enable_flag, usable_flag)
+    values (#{subjectCode,jdbcType=VARCHAR},
+      #{subjectName,jdbcType=VARCHAR},
+      #{parentSubjectCode,jdbcType=VARCHAR},
+      #{level,jdbcType=INTEGER}, #{subjectType,jdbcType=VARCHAR},
+      #{saveLocation,jdbcType=VARCHAR},
+      #{uploadFrequency,jdbcType=VARCHAR},
+      #{uploadDeadline,jdbcType=INTEGER},
+      #{templatePath,jdbcType=VARCHAR},
+      #{dataStartRow,jdbcType=INTEGER},
+      #{columnNum,jdbcType=INTEGER},
+      #{deptCode,jdbcType=VARCHAR},
+      #{committeeCode,jdbcType=VARCHAR},
+      #{comment,jdbcType=VARCHAR},
+      #{createDate,jdbcType=TIMESTAMP},
+      #{updateDate,jdbcType=TIMESTAMP}, #{createUserCode,jdbcType=VARCHAR},
+      #{updateUserCode,jdbcType=VARCHAR},
+      #{enableFlag,jdbcType=INTEGER}, #{usableFlag,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.SubjectInfo">
+    insert into gzrd_subject_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subjectCode != null">
+        subject_code,
+      </if>
+      <if test="subjectName != null">
+        subject_name,
+      </if>
+      <if test="parentSubjectCode != null">
+        parent_subject_code,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="subjectType != null">
+        subject_type,
+      </if>
+      <if test="saveLocation != null">
+        save_location,
+      </if>
+      <if test="uploadFrequency != null">
+        upload_frequency,
+      </if>
+      <if test="uploadDeadline != null">
+        upload_deadline,
+      </if>
+      <if test="templatePath != null">
+        template_path,
+      </if>
+      <if test="dataStartRow != null">
+        data_start_row,
+      </if>
+      <if test="columnNum != null">
+        column_num,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="committeeCode != null">
+        committee_code,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="createUserCode != null">
+        create_user_code,
+      </if>
+      <if test="updateUserCode != null">
+        update_user_code,
+      </if>
+      <if test="enableFlag != null">
+        enable_flag,
+      </if>
+      <if test="usableFlag != null">
+        usable_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subjectCode != null">
+        #{subjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="subjectName != null">
+        #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentSubjectCode != null">
+        #{parentSubjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="subjectType != null">
+        #{subjectType,jdbcType=VARCHAR},
+      </if>
+      <if test="saveLocation != null">
+        #{saveLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadFrequency != null">
+        #{uploadFrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDeadline != null">
+        #{uploadDeadline,jdbcType=INTEGER},
+      </if>
+      <if test="templatePath != null">
+        #{templatePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dataStartRow != null">
+        #{dataStartRow,jdbcType=INTEGER},
+      </if>
+      <if test="columnNum != null">
+        #{columnNum,jdbcType=INTEGER},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="committeeCode != null">
+        #{committeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserCode != null">
+        #{updateUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null">
+        #{enableFlag,jdbcType=INTEGER},
+      </if>
+      <if test="usableFlag != null">
+        #{usableFlag,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective"
+          parameterType="cn.gz.rd.datacollection.model.SubjectInfo">
+    update gzrd_subject_info
+    <set>
+      <if test="subjectName != null">
+        subject_name = #{subjectName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentSubjectCode != null">
+        parent_subject_code = #{parentSubjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="subjectType != null">
+        subject_type = #{subjectType,jdbcType=VARCHAR},
+      </if>
+      <if test="saveLocation != null">
+        save_location = #{saveLocation,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadFrequency != null">
+        upload_frequency = #{uploadFrequency,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDeadline != null">
+        upload_deadline = #{uploadDeadline,jdbcType=INTEGER},
+      </if>
+      <if test="templatePath != null">
+        template_path = #{templatePath,jdbcType=VARCHAR},
+      </if>
+      <if test="dataStartRow != null">
+        data_start_row = #{dataStartRow,jdbcType=INTEGER},
+      </if>
+      <if test="columnNum != null">
+        column_num = #{columnNum,jdbcType=INTEGER},
+      </if>
+      <if test="deptCode != null">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="committeeCode != null">
+        committee_code = #{committeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserCode != null">
+        create_user_code = #{createUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserCode != null">
+        update_user_code = #{updateUserCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enableFlag != null">
+        enable_flag = #{enableFlag,jdbcType=INTEGER},
+      </if>
+      <if test="usableFlag != null">
+        usable_flag = #{usableFlag,jdbcType=INTEGER},
+      </if>
+    </set>
+    where subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.SubjectInfo">
+    update gzrd_subject_info
+    set subject_name = #{subjectName,jdbcType=VARCHAR},
+      parent_subject_code = #{parentSubjectCode,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      subject_type = #{subjectType,jdbcType=VARCHAR},
+      save_location = #{saveLocation,jdbcType=VARCHAR},
+      upload_frequency = #{uploadFrequency,jdbcType=VARCHAR},
+      upload_deadline = #{uploadDeadline,jdbcType=INTEGER},
+      template_path = #{templatePath,jdbcType=VARCHAR},
+      data_start_row = #{dataStartRow,jdbcType=INTEGER},
+      column_num = #{columnNum,jdbcType=INTEGER},
+      dept_code = #{deptCode,jdbcType=VARCHAR},
+      committee_code = #{committeeCode,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_user_code = #{createUserCode,jdbcType=VARCHAR},
+      update_user_code = #{updateUserCode,jdbcType=VARCHAR},
+      enable_flag = #{enableFlag,jdbcType=INTEGER},
+      usable_flag = #{usableFlag,jdbcType=INTEGER}
+    where subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectMaxNum" parameterType="string" resultType="int">
+    SELECT SUBSTR(t.`subject_code`, -4) + 0 AS maxNum
+    FROM `gzrd_subject_info` t
+    WHERE t.`subject_code` LIKE #{subjectCode,jdbcType=VARCHAR}
+    ORDER BY SUBSTR(t.`subject_code`, -4) + 0 DESC
+    LIMIT 1
+  </select>
+
+  <update id="updateSubjectToDisable" parameterType="string">
+    update gzrd_subject_info
+    set enable_flag = 0
+    where subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </update>
+
+  <select id="selectSubject" resultMap="BaseResultMap">
+    SELECT t.*, bm.`BMQMC` as dept_name, gw.`GWQMC` as committee_name
+    FROM gzrd_subject_info t
+      LEFT JOIN `gzrd_sjcj_bmxxb` bm ON t.`dept_code` = bm.`BMBM`
+      LEFT JOIN `gzrd_sjcj_gwxxb` gw ON t.`committee_code` = gw.`GWBM`
+    <where>
+      enable_flag = 1
+      <if test="subjectCode != null">
+        AND t.`subject_code` LIKE #{subjectCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subjectName != null">
+        AND t.`subject_name` LIKE #{subjectName,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null">
+        AND t.`subject_code` IN
+        (SELECT bz.`ZTBH` FROM `gzrd_sjcj_bmztglb` bz WHERE bz.`BMBH` = #{deptCode,jdbcType=VARCHAR})
+      </if>
+      <if test="committeeCode != null">
+        AND t.`committee_code` = #{committeeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isUsable != null">
+        <if test="isUsable == true">
+          AND t.`usable_flag` = 1
+        </if>
+        <if test="isUsable == false">
+          AND t.`usable_flag` = 0
+        </if>
+      </if>
+    </where>
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="countSubject" resultType="int">
+    SELECT COUNT(1) FROM gzrd_subject_info t
+    <where>
+      enable_flag = 1
+      <if test="subjectCode != null">
+        AND t.`subject_code` LIKE #{subjectCode,jdbcType=VARCHAR}
+      </if>
+      <if test="subjectName != null">
+        AND t.`subject_name` LIKE #{subjectName,jdbcType=VARCHAR}
+      </if>
+      <if test="deptCode != null">
+        AND t.`subject_code` IN
+        (SELECT bz.`ZTBH` FROM `gzrd_sjcj_bmztglb` bz WHERE bz.`BMBH` = #{deptCode,jdbcType=VARCHAR})
+      </if>
+      <if test="committeeCode != null">
+        AND t.`committee_code` = #{committeeCode,jdbcType=VARCHAR}
+      </if>
+      <if test="isUsable != null">
+        <if test="isUsable == true">
+          AND t.`usable_flag` = 1
+        </if>
+        <if test="isUsable == false">
+          AND t.`usable_flag` = 0
+        </if>
+      </if>
+    </where>
+  </select>
+
+  <update id="updateUsableFlag">
+    UPDATE gzrd_subject_info t
+    SET t.`usable_flag` = #{usableFlag}
+    WHERE t.`subject_code` IN
+    <foreach collection="subjectCodes" index="index"
+             item="subjectCode" open="(" separator="," close=")">
+      #{subjectCode}
+    </foreach>
+  </update>
+
+  <select id="selectParentSubject" parameterType="java.lang.String" resultMap="parentSubjectMap">
+    select subject_code,subject_name from renda.gzrd_subject_info
+    <where>
+    subject_type = '目录'
+    <if test="committeeCode != null">
+      AND committee_code = #{committeeCode,jdbcType=VARCHAR}
+    </if>
+    </where>
+  </select>
+
+  <select id="getVerifySubject" resultMap="BaseResultMap">
+    SELECT * FROM renda.gzrd_subject_info
+    WHERE subject_type = '数据表'
+    AND enable_flag = 1
+    AND usable_flag = 1
+    AND committee_code = 'GWBM_03'
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="countVerifySubject" resultType="java.lang.Integer">
+    SELECT count(1) FROM renda.gzrd_subject_info
+    WHERE subject_type = '数据表'
+          AND enable_flag = 1
+          AND usable_flag = 1
+          AND committee_code = 'GWBM_03';
+  </select>
+
+  <select id="queryTableNameBySubjectCode" resultType="java.lang.String" parameterType="java.lang.String">
+    SELECT save_location FROM renda.gzrd_subject_info
+    WHERE subject_type = '数据表'
+          AND enable_flag = 1
+          AND usable_flag = 1
+          AND committee_code = 'GWBM_03'
+          AND subject_code = #{subjectCode};
+  </select>
+
+</mapper>

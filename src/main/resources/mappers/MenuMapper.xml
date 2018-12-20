@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.MenuMapper">
+
+    <resultMap id="menuList" type="cn.gz.rd.datacollection.model.Menu" >
+        <result column="menu_id" property="menuId" jdbcType="INTEGER" />
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" />
+        <result column="modify_date" property="modifyDate" />
+    </resultMap>
+
+    <select id="queryAll" resultMap="menuList" >
+        SELECT
+            CDBM AS menu_id,
+            CDQX AS menu_name
+        FROM gzrd_sjcj_cdqxb
+    </select>
+
+</mapper>

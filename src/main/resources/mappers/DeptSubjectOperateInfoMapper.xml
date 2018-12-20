@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.DeptSubjectOperateInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.DeptSubjectOperateInfo">
+    <id column="JLID" jdbcType="INTEGER" property="jlid" />
+    <result column="ZTZTID" jdbcType="INTEGER" property="ztztid" />
+    <result column="CZLX" jdbcType="VARCHAR" property="czlx" />
+    <result column="CZSJ" jdbcType="TIMESTAMP" property="czsj" />
+    <result column="SJCCLJ" jdbcType="VARCHAR" property="sjcclj" />
+    <result column="CZYHBH" jdbcType="VARCHAR" property="czyhbh" />
+    <result column="WJMC" jdbcType="VARCHAR" property="wjmc" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    JLID, ZTZTID, CZLX, CZSJ, SJCCLJ, CZYHBH, WJMC
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jkwww_sjcj_ztshjlb
+    where JLID = #{jlid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_sjcj_ztshjlb
+    where JLID = #{jlid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.DeptSubjectOperateInfo"
+          keyProperty="jlid" useGeneratedKeys="true">
+    insert into jkwww_sjcj_ztshjlb (ZTZTID, CZLX,
+      CZSJ, SJCCLJ, CZYHBH, 
+      WJMC)
+    values (#{ztztid,jdbcType=VARCHAR}, #{czlx,jdbcType=VARCHAR},
+      #{czsj,jdbcType=TIMESTAMP}, #{sjcclj,jdbcType=VARCHAR}, #{czyhbh,jdbcType=VARCHAR}, 
+      #{wjmc,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.DeptSubjectOperateInfo"
+          keyProperty="jlid" useGeneratedKeys="true">
+    insert into jkwww_sjcj_ztshjlb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ztztid != null">
+        ZTZTID,
+      </if>
+      <if test="czlx != null">
+        CZLX,
+      </if>
+      <if test="czsj != null">
+        CZSJ,
+      </if>
+      <if test="sjcclj != null">
+        SJCCLJ,
+      </if>
+      <if test="czyhbh != null">
+        CZYHBH,
+      </if>
+      <if test="wjmc != null">
+        WJMC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ztztid != null">
+        #{ztztid,jdbcType=VARCHAR},
+      </if>
+      <if test="czlx != null">
+        #{czlx,jdbcType=VARCHAR},
+      </if>
+      <if test="czsj != null">
+        #{czsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjcclj != null">
+        #{sjcclj,jdbcType=VARCHAR},
+      </if>
+      <if test="czyhbh != null">
+        #{czyhbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wjmc != null">
+        #{wjmc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.DeptSubjectOperateInfo">
+    update jkwww_sjcj_ztshjlb
+    <set>
+      <if test="ztztid != null">
+        ZTZTID = #{ztztid,jdbcType=VARCHAR},
+      </if>
+      <if test="czlx != null">
+        CZLX = #{czlx,jdbcType=VARCHAR},
+      </if>
+      <if test="czsj != null">
+        CZSJ = #{czsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjcclj != null">
+        SJCCLJ = #{sjcclj,jdbcType=VARCHAR},
+      </if>
+      <if test="czyhbh != null">
+        CZYHBH = #{czyhbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wjmc != null">
+        WJMC = #{wjmc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where JLID = #{jlid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.DeptSubjectOperateInfo">
+    update jkwww_sjcj_ztshjlb
+    set ZTZTID = #{ztztid,jdbcType=VARCHAR},
+      CZLX = #{czlx,jdbcType=VARCHAR},
+      CZSJ = #{czsj,jdbcType=TIMESTAMP},
+      SJCCLJ = #{sjcclj,jdbcType=VARCHAR},
+      CZYHBH = #{czyhbh,jdbcType=VARCHAR},
+      WJMC = #{wjmc,jdbcType=VARCHAR}
+    where JLID = #{jlid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwPlanAndImplBaseInfoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwPlanAndImplBaseInfo">
+    <id column="XH" jdbcType="INTEGER" property="xh" />
+    <result column="GZRW" jdbcType="VARCHAR" property="gzrw" />
+    <result column="JHCTSJ" jdbcType="VARCHAR" property="jhctsj" />
+    <result column="LY" jdbcType="VARCHAR" property="ly" />
+    <result column="GZJD" jdbcType="VARCHAR" property="gzjd" />
+    <result column="WCQK" jdbcType="VARCHAR" property="wcqk" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    XH, GZRW, JHCTSJ, LY, GZJD, WCQK, BZ
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jkwww_msjcssbjghjqssfazdss_jcxxb
+    where XH = #{xh,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_msjcssbjghjqssfazdss_jcxxb
+    where XH = #{xh,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteAll">
+    delete from jkwww_msjcssbjghjqssfazdss_jcxxb
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwPlanAndImplBaseInfo">
+    insert into jkwww_msjcssbjghjqssfazdss_jcxxb (XH, GZRW, JHCTSJ, 
+      LY, GZJD, WCQK, BZ
+      )
+    values (#{xh,jdbcType=INTEGER}, #{gzrw,jdbcType=VARCHAR}, #{jhctsj,jdbcType=VARCHAR}, 
+      #{ly,jdbcType=VARCHAR}, #{gzjd,jdbcType=VARCHAR}, #{wcqk,jdbcType=VARCHAR}, #{bz,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwPlanAndImplBaseInfo">
+    insert into jkwww_msjcssbjghjqssfazdss_jcxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        XH,
+      </if>
+      <if test="gzrw != null">
+        GZRW,
+      </if>
+      <if test="jhctsj != null">
+        JHCTSJ,
+      </if>
+      <if test="ly != null">
+        LY,
+      </if>
+      <if test="gzjd != null">
+        GZJD,
+      </if>
+      <if test="wcqk != null">
+        WCQK,
+      </if>
+      <if test="bz != null">
+        BZ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xh != null">
+        #{xh,jdbcType=INTEGER},
+      </if>
+      <if test="gzrw != null">
+        #{gzrw,jdbcType=VARCHAR},
+      </if>
+      <if test="jhctsj != null">
+        #{jhctsj,jdbcType=VARCHAR},
+      </if>
+      <if test="ly != null">
+        #{ly,jdbcType=VARCHAR},
+      </if>
+      <if test="gzjd != null">
+        #{gzjd,jdbcType=VARCHAR},
+      </if>
+      <if test="wcqk != null">
+        #{wcqk,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.JkwwPlanAndImplBaseInfo">
+    update jkwww_msjcssbjghjqssfazdss_jcxxb
+    <set>
+      <if test="gzrw != null">
+        GZRW = #{gzrw,jdbcType=VARCHAR},
+      </if>
+      <if test="jhctsj != null">
+        JHCTSJ = #{jhctsj,jdbcType=VARCHAR},
+      </if>
+      <if test="ly != null">
+        LY = #{ly,jdbcType=VARCHAR},
+      </if>
+      <if test="gzjd != null">
+        GZJD = #{gzjd,jdbcType=VARCHAR},
+      </if>
+      <if test="wcqk != null">
+        WCQK = #{wcqk,jdbcType=VARCHAR},
+      </if>
+      <if test="bz != null">
+        BZ = #{bz,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.JkwwPlanAndImplBaseInfo">
+    update jkwww_msjcssbjghjqssfazdss_jcxxb
+    set GZRW = #{gzrw,jdbcType=VARCHAR},
+      JHCTSJ = #{jhctsj,jdbcType=VARCHAR},
+      LY = #{ly,jdbcType=VARCHAR},
+      GZJD = #{gzjd,jdbcType=VARCHAR},
+      WCQK = #{wcqk,jdbcType=VARCHAR},
+      BZ = #{bz,jdbcType=VARCHAR}
+    where XH = #{xh,jdbcType=INTEGER}
+  </update>
+
+</mapper>

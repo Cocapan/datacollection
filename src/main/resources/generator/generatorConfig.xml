@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<!--使用方法:mvn mybatis-generator:generate-->
+
+<generatorConfiguration>
+
+    <context id="MysqlTables" targetRuntime="MyBatis3" >
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://172.16.111.91:3306/renda"
+                userId="root" password="Hcf@123456">
+        </jdbcConnection>
+
+        <!--<jdbcConnection
+                driverClass="com.mysql.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/renda"
+                userId="root" password="774954210">
+        </jdbcConnection>-->
+
+        <!--实体类也不用提前，建立，会自动根据数据库生成，对应数据库中字段-->
+        <javaModelGenerator targetPackage="cn.gz.rd.datacollection.model" targetProject="src/main/java"/>
+
+        <!--映射的mapper.xml文件-->
+        <sqlMapGenerator targetPackage="resources.mappers" targetProject="src/main"/>
+
+        <!--映射文件，目标不必提前生成，会自动生成-->
+        <javaClientGenerator targetPackage="cn.gz.rd.datacollection.dao"
+                             targetProject="src/main/java" type="XMLMAPPER"/>
+
+        <table tableName="jkwww_msjcssbjghjqssfazdss_jcxxb" domainObjectName="JkwwPlanAndImplBaseInfo"
+               enableCountByExample="false"
+               enableUpdateByExample="false"
+               enableDeleteByExample="false"
+               enableSelectByExample="false"
+               selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+
+    </context>
+
+</generatorConfiguration>

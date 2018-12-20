@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwAccessoryMapper">
+
+    <resultMap id="accessoryFileList" type="cn.gz.rd.datacollection.model.AccessoryFile" >
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+        <result column="original_name" property="originalName" jdbcType="VARCHAR" />
+        <result column="statistic_period" property="statisticPeriod" jdbcType="VARCHAR" />
+        <result column="storage_url" property="storageUrl" jdbcType="VARCHAR" />
+        <result column="preview_url" property="previewUrl" jdbcType="VARCHAR" />
+        <result column="dept_code" property="deptCode" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO jkwww_sjcj_fjwjb
+        (file_name, original_name, statistic_period, storage_url, preview_url, dept_code)
+        values
+        (#{fileName,jdbcType=VARCHAR},
+        #{originalName,jdbcType=VARCHAR},
+        #{statisticPeriod,jdbcType=VARCHAR},
+        #{storageUrl,jdbcType=VARCHAR},
+        #{previewUrl,jdbcType=VARCHAR},
+        #{deptCode,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByCountRateAndDeptCode" resultMap="accessoryFileList">
+        SELECT * FROM jkwww_sjcj_fjwjb
+        WHERE statistic_period =  #{statisticPeriod,jdbcType=VARCHAR}
+        AND dept_code = #{deptCode,jdbcType=VARCHAR};
+    </select>
+
+    <select id="selectStorageUrlById" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT storage_url FROM jkwww_sjcj_fjwjb
+        WHERE id = #{id,jdbcType=INTEGER};
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM jkwww_sjcj_fjwjb
+        WHERE id = #{id,jdbcType=INTEGER};
+    </delete>
+
+    <select id="selectByFileNameCountRateAndDeptCode" resultType="cn.gz.rd.datacollection.model.AccessoryFile" parameterType="java.lang.String">
+        SELECT id,file_name as fileName,original_name as originalName,statistic_period as statisticPeriod,storage_url as storageUrl, preview_url as previewUrl, dept_code as deptCode FROM jkwww_sjcj_fjwjb
+        WHERE file_name = #{fileName,jdbcType=VARCHAR}
+          AND statistic_period =  #{statisticPeriod,jdbcType=VARCHAR}
+          AND dept_code = #{deptCode,jdbcType=VARCHAR};
+    </select>
+
+    <update id="updateByStorageUrl" parameterType="cn.gz.rd.datacollection.model.AccessoryFile">
+        UPDATE jkwww_sjcj_fjwjb
+        <set >
+            <if test="statisticPeriod != null" >
+                statistic_period = #{statisticPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="storageUrl != null" >
+                storage_url = #{storageUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="previewUrl != null" >
+                preview_url = #{previewUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="deptCode != null" >
+                dept_code = #{deptCode,jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE file_name = #{fileName,jdbcType=VARCHAR}
+    </update>
+
+
+</mapper>

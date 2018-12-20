@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.DepartmentMapper">
+
+    <resultMap id="showDepartmentList" type="cn.gz.rd.datacollection.model.ShowDepartment" >
+        <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="npc_organization_department_id" property="npcOrganizationDepartmentId" jdbcType="VARCHAR" />
+        <result column="create_date" property="createDate" />
+        <result column="working_committee_name" property="workingCommitteeName" />
+    </resultMap>
+
+    <resultMap id="departmentIdList" type="java.lang.String" >
+        <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="departmentNameList" type="java.lang.String" >
+        <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="workingCommitteeIds" type="java.lang.String" >
+        <result column="workingCommittee_id" property="workingCommitteeId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="workingCommitteeNames" type="java.lang.String" >
+        <result column="workingCommittee_name" property="workingCommitteeName" jdbcType="VARCHAR" />
+    </resultMap>
+
+
+
+    <select id="selectDepartmentNamesByWorkCommitteeIdLikeDepartmentName" resultMap="departmentNameList">
+        SELECT DISTINCT gsb.BMQMC as department_name
+        FROM gzrd_sjcj_bmztglb gsbm
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsb.BMBM = gsbm.BMBH
+            LEFT JOIN gzrd_subject_info gsi ON gsi.subject_code = gsbm.ZTBH
+        WHERE gsi.committee_code = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1
+              AND gsi.subject_type != '目录';
+    </select>
+
+    <select id="selectDepartmentNamesByDepartmentId" resultMap="departmentNameList" parameterType="java.lang.String" >
+        SELECT DISTINCT gsb.BMQMC as department_name
+        FROM gzrd_sjcj_bmztglb gsbm
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsb.BMBM = gsbm.BMBH
+            LEFT JOIN gzrd_subject_info gsi ON gsi.subject_code = gsbm.ZTBH
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1
+              AND gsi.subject_type != '目录';
+    </select>
+
+    <select id="selectDepartmentNameByDepartmentId" resultType="java.lang.String" parameterType="java.lang.String" >
+        SELECT DISTINCT gsb.BMQMC as department_name
+        FROM gzrd_sjcj_bmxxb gsb
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR};
+    </select>
+
+    <select id="selectDepartmentNamesLikeDepartmentName" resultMap="departmentNameList">
+        SELECT BMQMC as department_name
+        FROM gzrd_sjcj_bmxxb
+        WHERE BMQMC LIKE CONCAT('%',#{departmentName},'%');
+    </select>
+
+    <select id="selectLikeDepartmentId" resultMap="departmentIdList">
+        SELECT
+            BMBM AS department_id
+        FROM gzrd_sjcj_bmxxb
+        WHERE BMBM LIKE CONCAT('%',#{departmentId},'%');
+    </select>
+
+    <select id="selectByWorkingCommitteeIdLikeDepartmentId" resultMap="departmentIdList">
+        SELECT
+            gsb.BMBM AS department_id
+        FROM gzrd_sjcj_bmxxb gsb
+            LEFT JOIN gzrd_sjcj_gwbmglb gsg ON gsb.BMBM = gsg.BMBM
+        WHERE gsb.BMBM LIKE CONCAT('%',#{departmentId},'%')
+              AND gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR};
+    </select>
+
+    <select id="pageQueryAll" resultMap="showDepartmentList">
+        SELECT
+            gsb.BMBM AS department_id,
+            gsb.BMQMC AS department_name,
+            gsb.BZ AS remark,
+            gsb.RDZZBMBH AS npc_organization_department_id,
+            gsb.CJSJ AS create_date
+        FROM gzrd_sjcj_bmxxb gsb
+        ORDER BY gsb.BMBM ASC
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM gzrd_sjcj_bmxxb gsb
+    </select>
+
+    <select id="selectWorkingCommitteeNameByDepartmentId" parameterType="java.lang.String" resultMap="workingCommitteeNames">
+        SELECT
+            gsgw.GWQMC AS workingCommittee_name
+        FROM gzrd_sjcj_gwbmglb gsg
+            LEFT JOIN gzrd_sjcj_gwxxb gsgw ON gsgw.GWBM=gsg.GWBM
+        WHERE gsg.BMBM = #{departmentId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="pageQueryAllByWorkingCommitteeId" resultMap="showDepartmentList">
+        SELECT
+            gsb.BMBM AS department_id,
+            gsb.BMQMC AS department_name,
+            gsb.BZ AS remark,
+            gsb.RDZZBMBH AS npc_organization_department_id,
+            gsb.CJSJ AS create_date
+        FROM gzrd_sjcj_bmxxb gsb
+            LEFT JOIN gzrd_sjcj_gwbmglb gsg ON gsb.BMBM=gsg.BMBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+        ORDER BY gsb.BMBM ASC
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="countAllByWorkingCommitteeId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM gzrd_sjcj_bmxxb gsb
+            LEFT JOIN gzrd_sjcj_gwbmglb gsg ON gsb.BMBM=gsg.BMBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="pageQueryByCondition" resultMap="showDepartmentList">
+        SELECT
+            gsb.BMBM AS department_id,
+            gsb.BMQMC AS department_name,
+            gsb.BZ AS remark,
+            gsb.RDZZBMBH AS npc_organization_department_id,
+            gsb.CJSJ AS create_date
+        FROM gzrd_sjcj_bmxxb gsb
+        WHERE gsb.BMBM LIKE CONCAT('%',#{departmentId},'%')
+              AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+        ORDER BY gsb.BMBM ASC
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="countAllByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM gzrd_sjcj_bmxxb gsb
+        WHERE gsb.BMBM LIKE CONCAT('%',#{departmentId},'%')
+              AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+    </select>
+
+    <insert id="insert" parameterType="cn.gz.rd.datacollection.model.Department">
+        <selectKey keyProperty="departmentId" order="AFTER" resultType="java.lang.String">
+            SELECT BMBM FROM gzrd_sjcj_bmxxb order by BMBM desc limit 1
+        </selectKey>
+        INSERT INTO gzrd_sjcj_bmxxb
+        (BMBM, BMQMC, BZ, CJSJ, CJYH, XGYH)
+        values
+        (#{departmentId,jdbcType=VARCHAR},
+        #{departmentName,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{createDate},
+        #{createUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=VARCHAR})
+    </insert>
+    
+    <select id="selectLastDepartmentId" resultType="java.lang.String">
+        SELECT BMBM FROM gzrd_sjcj_bmxxb order by BMBM desc limit 1
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.Department">
+        UPDATE gzrd_sjcj_bmxxb
+        <set >
+            <if test="departmentName != null" >
+                BMQMC = #{departmentName,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                BZ = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null" >
+                XGYH = #{modifyUser,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE BMBM = #{departmentId,jdbcType=VARCHAR}
+    </update>
+
+    <select id="selectByDepartmentName" resultMap="showDepartmentList" parameterType="java.lang.String">
+        SELECT
+            BMBM AS department_id,
+            BMQMC AS department_name,
+            BZ AS remark,
+            RDZZBMBH AS npc_organization_department_id,
+            CJSJ AS create_date
+        FROM gzrd_sjcj_bmxxb
+        WHERE BMQMC = #{workingCommitteeName,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectDepartmentsByWorkingCommitteeId" resultMap="showDepartmentList" parameterType="java.lang.String">
+        SELECT
+            gsg.BMBM AS department_id,
+            gsg.BMQMC AS department_name
+        FROM gzrd_sjcj_bmxxb gsg
+            LEFT JOIN gzrd_sjcj_gwbmglb gsgw ON gsgw.BMBM = gsg.BMBM
+        WHERE gsgw.GWBM LIKE CONCAT('%',#{workingCommitteeId},'%')
+    </select>
+
+    <select id="getWorkingCommitteeIdsByDeptId" parameterType="java.lang.String" resultMap="workingCommitteeIds">
+        SELECT
+            gsgw.GWBM AS workingCommittee_id
+        FROM gzrd_sjcj_bmxxb gsb
+            LEFT JOIN gzrd_sjcj_gwbmglb gsg ON gsb.BMBM=gsg.BMBM
+            LEFT JOIN gzrd_sjcj_gwxxb gsgw ON gsgw.GWBM=gsg.GWBM
+        WHERE gsb.BMBM = #{deptId,jdbcType=VARCHAR}
+            AND gsgw.GWBM IS NOT NULL
+    </select>
+
+
+    <select id="selectDepartments" resultMap="showDepartmentList" parameterType="java.lang.String">
+        SELECT
+            BMBM AS department_id,
+            BMQMC AS department_name
+        FROM gzrd_sjcj_bmxxb
+    </select>
+
+    <select id="selectDepartmentsByWorkingCommitteeIdAndUploadPeriod" resultMap="showDepartmentList">
+        SELECT
+            DISTINCT (gsg.BMBM) AS department_id,
+            gsg.BMQMC AS department_name
+        FROM gzrd_sjcj_bmxxb gsg
+            LEFT JOIN gzrd_sjcj_gwbmglb gsgw ON gsgw.BMBM = gsg.BMBM
+            LEFT JOIN gzrd_subject_info gsi ON gsg.BMBM = gsi.dept_code
+        WHERE gsgw.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

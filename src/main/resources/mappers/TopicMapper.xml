@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.TopicMapper">
+
+    <!--本月需上传主题展示项-->
+    <resultMap id="ToUploadTopicMap" type="cn.gz.rd.datacollection.model.ShowTopic">
+        <result column="working_committee_id" jdbcType="VARCHAR" property="workingCommitteeId" />
+        <result column="working_committee_name" jdbcType="VARCHAR" property="workingCommitteeName" />
+        <result column="department_id" jdbcType="VARCHAR" property="departmentId" />
+        <result column="department_name" jdbcType="VARCHAR" property="departmentName" />
+        <result column="topic_id" jdbcType="VARCHAR" property="topicId" />
+        <result column="topic_name" jdbcType="VARCHAR" property="topicName" />
+        <result column="upload_period" jdbcType="VARCHAR" property="uploadPeriod" />
+        <result column="upload_deadline" jdbcType="INTEGER" property="uploadDeadLine" />
+        <result column="topic_type" jdbcType="VARCHAR" property="topicType" />
+        <result column="storage_table_name" jdbcType="VARCHAR" property="storageTableName" />
+        <result column="topic_file_storage_path" jdbcType="VARCHAR" property="topicFileStoragePath" />
+        <result column="superior_topic_id" jdbcType="VARCHAR" property="superiorTopicId" />
+    </resultMap>
+
+    <resultMap id="topicNameList" type="java.lang.String" >
+        <result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="superiorTopicIdList" type="java.lang.String" >
+        <result column="superior_topic_id" property="superiorTopicId" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="topicTypeList" type="java.lang.String" >
+        <result column="topic_type" property="topicType" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <!--通过工委编码及上报频度查询工委本月所需主题展示项-->
+    <select id="selectByWorkingCommitteeIdAndUploadPeriod" resultMap="ToUploadTopicMap">
+        SELECT
+         gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+         gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+         gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+         gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+         gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+         gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectByWorkingCommitteeId" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectSuperiorTopicByWorkingCommitteeIdAndUploadPeriod" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsi.level > 1
+              AND gsi.committee_code = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectSuperiorTopicByWorkingCommitteeId" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsi.level > 1
+              AND gsi.committee_code = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <!--通过部门编码及上报频度查询本月需上传主题展示项-->
+    <select id="selectByDepartmentIdAndUploadPeriod" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectByDepartmentId" resultMap="ToUploadTopicMap" >
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectSuperiorTopicByDepartmentIdAndUploadPeriod" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsi.level > 1
+              AND gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectSuperiorTopicByDepartmentId" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsi.level > 1
+              AND gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <!--通过工委编码及上报频度查询工委本月所需主题展示项-->
+    <select id="conditionQueryByWorkingCommitteeId" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+            AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+        <if test="topicType != null and topicType != ''">
+            AND gsi.subject_type REGEXP #{topicType,jdbcType=VARCHAR}
+        </if>
+        <if test="departmentName != null and departmentName != ''">
+            AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+        </if>
+        AND gsi.usable_flag = 1
+        AND gsi.enable_flag = 1
+        AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <!--通过部门编码及上报频度查询本月需上传主题展示项-->
+    <select id="conditionQueryByDepartmentId" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+            AND gsi.upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+        <if test="topicType != null and topicType != ''">
+            AND gsi.subject_type REGEXP #{topicType,jdbcType=VARCHAR}
+        </if>
+        <if test="departmentName != null and departmentName != ''">
+            AND gsb.BMQMC LIKE CONCAT('%',#{departmentName},'%')
+        </if>
+            AND gsg.GWBM != 'GWBM_03'
+        AND gsi.usable_flag = 1
+        AND gsi.enable_flag = 1
+        AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <delete id="deleteByStatisticsPeriod">
+        DELETE FROM ${storageTableName} WHERE TJZQ = #{statisticsPeriod,jdbcType=VARCHAR}
+    </delete>
+
+    <select id="selectByTopicId" parameterType="java.lang.String" resultMap="ToUploadTopicMap">
+        SELECT
+            gsg.GWQMC AS working_committee_name, gsb.BMQMC AS department_name,
+            gsi.subject_name AS topic_name, gsi.upload_frequency AS upload_period,
+            gsi.upload_deadline AS upload_deadline, gsi.subject_type AS topic_type,
+            gsi.subject_code AS topic_id, gsg.GWBM as working_committee_id,
+            gsb.BMBM AS department_id, gsi.save_location AS storage_table_name,
+            gsi.template_path AS topic_file_storage_path, gsi.parent_subject_code AS superior_topic_id
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsi.subject_code = #{topicId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.usable_flag = 1
+              AND gsi.enable_flag = 1
+              AND gsi.subject_type != '目录'
+        ORDER BY topic_id;
+    </select>
+
+    <select id="selectTopicTypesByWorkingCommitteeId" parameterType="java.lang.String" resultMap="topicTypeList">
+        SELECT
+            DISTINCT(gsi.subject_type) AS topic_type
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+        WHERE gsg.GWBM = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.subject_type != '目录'
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="selectTopicTypesByDepartmentId" parameterType="java.lang.String" resultMap="topicTypeList" >
+        SELECT
+            DISTINCT(gsi.subject_type) AS topic_type
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_gwxxb gsg ON gsi.committee_code=gsg.GWBM
+            LEFT JOIN gzrd_sjcj_bmztglb gsbb ON gsi.subject_code=gsbb.ZTBH
+            LEFT JOIN gzrd_sjcj_bmxxb gsb ON gsbb.BMBH=gsb.BMBM
+        WHERE gsb.BMBM = #{departmentId,jdbcType=VARCHAR}
+              AND gsg.GWBM != 'GWBM_03'
+              AND gsi.subject_type != '目录'
+              AND gsi.enable_flag = 1
+              AND gsi.usable_flag = 1;
+    </select>
+
+    <select id="countByStatisticsPeriod" resultType="java.lang.Integer">
+        SELECT count(1) FROM ${storageTableName} WHERE TJZQ = #{statisticsPeriod,jdbcType=VARCHAR}
+    </select>
+
+    <select id="getAbsolutePathByTopicId" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT queryParentSubject(subject_code)
+        FROM gzrd_subject_info
+        WHERE subject_code = #{topicId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectMaxUploadDeadLineByUploadPeriod" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT MAX(upload_deadline)
+        FROM gzrd_subject_info
+        WHERE upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectMaxUploadDeadLineByWorkingCommitteeIdUploadPeriod" resultType="java.lang.Integer">
+        SELECT MAX(upload_deadline)
+        FROM gzrd_subject_info
+        WHERE upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR}
+        AND committee_code = #{workingCommitteeId,jdbcType=VARCHAR};
+    </select>
+
+    <select id="selectMaxUploadDeadLine" resultType="java.lang.Integer">
+        SELECT MAX(upload_deadline)
+        FROM gzrd_subject_info
+    </select>
+
+    <select id="countNotUploadTopic" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM gzrd_subject_info gsi
+            LEFT JOIN gzrd_sjcj_scjlb gss
+                ON gss.ZTBH = gsi.subject_code
+        WHERE gsi.enable_flag = 1
+              AND gsi.usable_flag = 1
+              AND gsi.committee_code = #{workingCommitteeId,jdbcType=VARCHAR}
+              AND gsi.upload_frequency = #{uploadPeriod,jdbcType=VARCHAR}
+              AND gsi.subject_type != '目录'
+              AND gss.TJZQ = #{statisticsPeriod,jdbcType=VARCHAR}
+              AND gsi.dept_code = #{departmentId,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectMaxUploadDeadLineByDepartmentIdAndUploadPeriod" resultType="java.lang.Integer">
+        SELECT MAX(upload_deadline)
+        FROM gzrd_subject_info
+        WHERE dept_code = #{departmentId,jdbcType=VARCHAR}
+        AND upload_frequency REGEXP #{uploadPeriod,jdbcType=VARCHAR};
+    </select>
+
+</mapper>

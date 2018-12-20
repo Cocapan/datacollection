@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwwSubjectMapper">
+
+  <select id="selectSubjectInfo"
+          resultType="cn.gz.rd.datacollection.model.JkwwwSubjectInfo">
+    SELECT bz.`BMBH` as deptCode, zt.`ZTZTID` as subjectStatusId,
+      t.`subject_code` as subjectCode, gw.`GWQMC` as committeeName,
+      bm.`BMQMC` as deptName, t.`subject_name` as subjectName,
+      t.`upload_frequency` as uploadRate,
+      t.`subject_type` as dataType, zt.`SJZT` as statusCode,
+      zt.`SJCCSCSJ` as uploadDate, zt.`YLLJ` as previewPath
+    FROM gzrd_sjcj_bmztglb bz
+        INNER JOIN gzrd_subject_info t ON bz.`ZTBH` = t.`subject_code`
+          AND t.`enable_flag` = 1 AND t.`usable_flag` = 1
+          <if test="uploadRate != null">
+              AND t.`upload_frequency` = #{uploadRate,jdbcType=VARCHAR}
+          </if>
+        INNER JOIN gzrd_sjcj_gwxxb gw
+          ON t.`committee_code` = gw.`GWBM` AND gw.`GWBM` = 'GWBM_03'
+        INNER JOIN gzrd_sjcj_bmxxb bm ON bm.`BMBM` = bz.`BMBH`
+        <if test="bmbm != null and bmbm != ''">
+          AND bm.`BMBM` = #{bmbm,jdbcType=VARCHAR}
+        </if>
+        LEFT JOIN jkwww_sjcj_ztztxxb zt
+          ON zt.`ZTBH` = t.`subject_code` AND zt.`BMBH` = bz.`BMBH`
+        AND zt.`SJTJZQ` = #{tjzq,jdbcType=VARCHAR}
+    <where>
+        <if test="statusCodes != null">
+            AND zt.SJZT IN
+            <foreach collection="statusCodes" index="index"
+                     item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="isUpload != null and isUpload == true">
+            AND zt.`SJCCSCSJ` is not NULL
+        </if>
+        <if test="isUpload != null and isUpload == false">
+            AND zt.`SJCCSCSJ` is NULL
+        </if>
+    </where>
+      <if test="startRow != null and pageSize != null">
+          limit #{startRow}, #{pageSize}
+      </if>
+  </select>
+
+  <select id="countSubjectInfo" resultType="java.lang.Integer">
+        SELECT COUNT(bz.`BMBH`)
+        FROM gzrd_sjcj_bmztglb bz
+        INNER JOIN gzrd_subject_info t ON bz.`ZTBH` = t.`subject_code`
+          AND t.`enable_flag` = 1 AND t.`usable_flag` = 1
+          <if test="uploadRate != null">
+              AND t.`upload_frequency` = #{uploadRate,jdbcType=VARCHAR}
+          </if>
+        INNER JOIN gzrd_sjcj_gwxxb gw
+          ON t.`committee_code` = gw.`GWBM` AND gw.`GWBM` = 'GWBM_03'
+        INNER JOIN gzrd_sjcj_bmxxb bm ON bm.`BMBM` = bz.`BMBH`
+        <if test="bmbm != null and bmbm != ''">
+            AND bm.`BMBM` = #{bmbm,jdbcType=VARCHAR}
+        </if>
+        LEFT JOIN jkwww_sjcj_ztztxxb zt
+          ON zt.`ZTBH` = t.`subject_code` AND zt.`BMBH` = bz.`BMBH`
+            AND zt.`SJTJZQ` = #{tjzq,jdbcType=VARCHAR}
+        <where>
+            <if test="statusCodes != null">
+                AND zt.SJZT IN
+                <foreach collection="statusCodes" index="index"
+                         item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="isUpload != null and isUpload == true">
+                AND zt.`SJCCSCSJ` is not NULL
+            </if>
+            <if test="isUpload != null and isUpload == false">
+                AND zt.`SJCCSCSJ` is NULL
+            </if>
+        </where>
+  </select>
+
+  <select id="selectJkwwDeptInfo" resultType="cn.gz.rd.datacollection.model.JkwwDeptInfo">
+    SELECT bm.`BMBM` as deptCode, bm.`BMQMC` as deptName
+    FROM gzrd_sjcj_gwbmglb gw, gzrd_sjcj_bmxxb bm
+    WHERE gw.`BMBM` = bm.`BMBM` AND gw.`GWBM` = 'GWBM_03'
+  </select>
+
+  <select id="selectSubjectCompleteInfo" parameterType="java.lang.String"
+          resultType="cn.gz.rd.datacollection.model.SubjectCompleteInfo">
+    SELECT b.`subject_code` AS subjectCode, b.`subject_name` AS subjectName,
+	        IF(a.`checkNum` = b.`totalNum`, 1, 0) AS isComplete
+    FROM (
+        SELECT zt.`subject_code`, zt.`subject_name`, COUNT(bz.`BMBH`) AS totalNum
+        FROM `gzrd_subject_info` zt, `gzrd_sjcj_bmztglb` bz
+        WHERE zt.`subject_code` = bz.`ZTBH`
+        AND zt.`committee_code` = 'GWBM_03' AND zt.`enable_flag` = 1 AND zt.`usable_flag` = 1
+        AND zt.`subject_code` IN
+          <foreach collection="subjectCodes" index="index" item="item" open="(" separator="," close=")">
+            #{item, jdbcType=VARCHAR}
+          </foreach>
+        GROUP BY zt.`subject_code`, zt.`subject_name`
+    ) AS b LEFT JOIN (
+      SELECT
+        zt.`ZTBH` as subject_code,
+        t.`subject_name` as subject_name,
+        SUM(IF(zt.`SJZT` IS NOT NULL, 1, 0)) AS checkNum
+      FROM jkwww_sjcj_ztztxxb zt
+      LEFT JOIN gzrd_subject_info t ON zt.`ZTBH` = t.`subject_code`
+        AND t.`enable_flag` = 1 AND t.`usable_flag` = 1
+      WHERE zt.`ZTBH` IN
+      <foreach collection="subjectCodes" index="index" item="item" open="(" separator="," close=")">
+          #{item, jdbcType=VARCHAR}
+      </foreach>
+      AND zt.`SJTJZQ` = #{countRate,jdbcType=VARCHAR}
+      AND t.`subject_type` = '数据表'
+      AND t.`committee_code` = 'GWBM_03'
+      GROUP BY zt.`ZTBH`, t.`subject_name`
+    ) AS a ON a.`subject_code` = b.`subject_code`
+  </select>
+
+  <select id="selectUnCompleteDept" resultType="cn.gz.rd.datacollection.model.JkwwUnCompleteDeptVO">
+    SELECT bz.`ZTBH` as subjectCode, bz.`BMBH` as deptCode, b.`BMQMC` as deptName
+    FROM `gzrd_subject_info` zt, `gzrd_sjcj_bmztglb` bz, `gzrd_sjcj_bmxxb` b
+    WHERE zt.`subject_code` = bz.`ZTBH` AND bz.`BMBH` = b.`BMBM`
+    AND zt.`committee_code` = 'GWBM_03'
+    AND zt.`enable_flag` = 1 AND zt.`usable_flag` = 1
+    AND zt.`subject_code` IN
+      <foreach collection="subjectCodes" index="index" item="item" open="(" separator="," close=")">
+          #{item, jdbcType=VARCHAR}
+      </foreach>
+    AND bz.`BMBH` NOT IN (
+        SELECT z.`BMBH`
+        FROM`jkwww_sjcj_ztztxxb` z
+        WHERE z.`SJTJZQ` = #{countRate,jdbcType=VARCHAR} AND z.`ZTBH` = bz.`ZTBH`
+        AND z.`SJZT` IS NOT NULL
+    )
+    ORDER BY bz.`ZTBH`, bz.`BMBH`
+  </select>
+
+  <select id="countUnUploadSubject" resultType="int">
+    SELECT SUM(IFNULL(zt.`ZTZTID`, 1)) AS unSubmitNum
+    FROM gzrd_sjcj_bmztglb bz
+    INNER JOIN gzrd_subject_info t
+      ON bz.`ZTBH` = t.`subject_code`
+      AND t.`enable_flag` = 1
+      AND t.`usable_flag` = 1
+      AND t.`committee_code` = 'GWBM_03'
+      <if test="uploadRate != null">
+        AND t.`upload_frequency` = #{uploadRate,jdbcType=VARCHAR}
+      </if>
+    LEFT JOIN jkwww_sjcj_ztztxxb zt
+      ON zt.`ZTBH` = t.`subject_code`
+      AND zt.`BMBH` = bz.`BMBH`
+      AND zt.`SJTJZQ` = #{statPeriod,jdbcType=VARCHAR}
+    WHERE zt.`SJZT` IS NULL
+  </select>
+</mapper>

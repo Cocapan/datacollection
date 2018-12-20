@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwProjectInfoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwProjectInfo">
+    <id column="XMXH" jdbcType="INTEGER" property="xmxh" />
+    <result column="XMBM" jdbcType="VARCHAR" property="xmbm" />
+    <result column="SFWZDXM" jdbcType="VARCHAR" property="sfwzdxm" />
+    <result column="ZDXMXH" jdbcType="INTEGER" property="zdxmxh" />
+    <result column="SFWGCBZXM" jdbcType="VARCHAR" property="sfwgcbzxm" />
+    <result column="GCBZXMXH" jdbcType="INTEGER" property="gcbzxmxh" />
+    <result column="FL" jdbcType="VARCHAR" property="fl" />
+    <result column="ZT" jdbcType="VARCHAR" property="zt" />
+    <result column="SSQ" jdbcType="VARCHAR" property="ssq" />
+    <result column="XMMC" jdbcType="VARCHAR" property="xmmc" />
+    <result column="ZGBM" jdbcType="VARCHAR" property="zgbm" />
+    <result column="XMYZ" jdbcType="VARCHAR" property="xmyz" />
+    <result column="XMGMHJSNR" jdbcType="VARCHAR" property="xmgmhjsnr" />
+    <result column="JHKGSJN" jdbcType="INTEGER" property="jhkgsjn" />
+    <result column="JHKGSJY" jdbcType="INTEGER" property="jhkgsjy" />
+    <result column="YJJCSJN" jdbcType="INTEGER" property="yjjcsjn" />
+    <result column="YJJCSJY" jdbcType="INTEGER" property="yjjcsjy" />
+    <result column="XMZTZZE" jdbcType="DECIMAL" property="xmztzze" />
+    <result column="XMZTZCZZJ" jdbcType="DECIMAL" property="xmztzczzj" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    XMXH, XMBM, SFWZDXM, ZDXMXH, SFWGCBZXM, GCBZXMXH, FL, ZT, SSQ, XMMC, ZGBM, XMYZ, XMGMHJSNR,
+    JHKGSJN, JHKGSJY, YJJCSJN, YJJCSJY, XMZTZZE, XMZTZCZZJ
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jkwww_msjcssxmjcxxb
+    where XMXH = #{xmxh,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_msjcssxmjcxxb
+    where XMXH = #{xmxh,jdbcType=INTEGER}
+  </delete>
+
+  <delete id="deleteAll">
+    delete from jkwww_msjcssxmjcxxb
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwProjectInfo">
+    insert into jkwww_msjcssxmjcxxb (
+      XMXH, XMBM, SFWZDXM,
+      ZDXMXH, SFWGCBZXM, GCBZXMXH, 
+      FL, ZT, SSQ, XMMC, ZGBM,
+      XMYZ, XMGMHJSNR, JHKGSJN, 
+      JHKGSJY, YJJCSJN, YJJCSJY, 
+      XMZTZZE, XMZTZCZZJ
+    )
+    values (
+      #{xmxh,jdbcType=INTEGER},
+      #{xmbm,jdbcType=VARCHAR},
+      #{sfwzdxm,jdbcType=VARCHAR},
+      #{zdxmxh,jdbcType=INTEGER},
+      #{sfwgcbzxm,jdbcType=VARCHAR},
+      #{gcbzxmxh,jdbcType=INTEGER},
+      #{fl,jdbcType=VARCHAR},
+      #{zt,jdbcType=VARCHAR},
+      #{ssq,jdbcType=VARCHAR},
+      #{xmmc,jdbcType=VARCHAR},
+      #{zgbm,jdbcType=VARCHAR},
+      #{xmyz,jdbcType=VARCHAR},
+      #{xmgmhjsnr,jdbcType=VARCHAR},
+      #{jhkgsjn,jdbcType=INTEGER},
+      #{jhkgsjy,jdbcType=INTEGER},
+      #{yjjcsjn,jdbcType=INTEGER},
+      #{yjjcsjy,jdbcType=INTEGER},
+      #{xmztzze,jdbcType=DECIMAL},
+      #{xmztzczzj,jdbcType=DECIMAL}
+    )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.JkwwProjectInfo">
+    insert into jkwww_msjcssxmjcxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="xmxh != null">
+        XMXH,
+      </if>
+      <if test="xmbm != null">
+        XMBM,
+      </if>
+      <if test="sfwzdxm != null">
+        SFWZDXM,
+      </if>
+      <if test="zdxmxh != null">
+        ZDXMXH,
+      </if>
+      <if test="sfwgcbzxm != null">
+        SFWGCBZXM,
+      </if>
+      <if test="gcbzxmxh != null">
+        GCBZXMXH,
+      </if>
+      <if test="fl != null">
+        FL,
+      </if>
+      <if test="zt != null">
+        ZT,
+      </if>
+      <if test="ssq != null">
+        SSQ,
+      </if>
+      <if test="xmmc != null">
+        XMMC,
+      </if>
+      <if test="zgbm != null">
+        ZGBM,
+      </if>
+      <if test="xmyz != null">
+        XMYZ,
+      </if>
+      <if test="xmgmhjsnr != null">
+        XMGMHJSNR,
+      </if>
+      <if test="jhkgsjn != null">
+        JHKGSJN,
+      </if>
+      <if test="jhkgsjy != null">
+        JHKGSJY,
+      </if>
+      <if test="yjjcsjn != null">
+        YJJCSJN,
+      </if>
+      <if test="yjjcsjy != null">
+        YJJCSJY,
+      </if>
+      <if test="xmztzze != null">
+        XMZTZZE,
+      </if>
+      <if test="xmztzczzj != null">
+        XMZTZCZZJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="xmxh != null">
+        #{xmxh,jdbcType=INTEGER},
+      </if>
+      <if test="xmbm != null">
+        #{xmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfwzdxm != null">
+        #{sfwzdxm,jdbcType=VARCHAR},
+      </if>
+      <if test="zdxmxh != null">
+        #{zdxmxh,jdbcType=INTEGER},
+      </if>
+      <if test="sfwgcbzxm != null">
+        #{sfwgcbzxm,jdbcType=VARCHAR},
+      </if>
+      <if test="gcbzxmxh != null">
+        #{gcbzxmxh,jdbcType=INTEGER},
+      </if>
+      <if test="fl != null">
+        #{fl,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null">
+        #{zt,jdbcType=VARCHAR},
+      </if>
+      <if test="ssq != null">
+        #{ssq,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null">
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zgbm != null">
+        #{zgbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmyz != null">
+        #{xmyz,jdbcType=VARCHAR},
+      </if>
+      <if test="xmgmhjsnr != null">
+        #{xmgmhjsnr,jdbcType=VARCHAR},
+      </if>
+      <if test="jhkgsjn != null">
+        #{jhkgsjn,jdbcType=INTEGER},
+      </if>
+      <if test="jhkgsjy != null">
+        #{jhkgsjy,jdbcType=INTEGER},
+      </if>
+      <if test="yjjcsjn != null">
+        #{yjjcsjn,jdbcType=INTEGER},
+      </if>
+      <if test="yjjcsjy != null">
+        #{yjjcsjy,jdbcType=INTEGER},
+      </if>
+      <if test="xmztzze != null">
+        #{xmztzze,jdbcType=DECIMAL},
+      </if>
+      <if test="xmztzczzj != null">
+        #{xmztzczzj,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.JkwwProjectInfo">
+    update jkwww_msjcssxmjcxxb
+    <set>
+      <if test="xmbm != null">
+        XMBM = #{xmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="sfwzdxm != null">
+        SFWZDXM = #{sfwzdxm,jdbcType=VARCHAR},
+      </if>
+      <if test="zdxmxh != null">
+        ZDXMXH = #{zdxmxh,jdbcType=INTEGER},
+      </if>
+      <if test="sfwgcbzxm != null">
+        SFWGCBZXM = #{sfwgcbzxm,jdbcType=VARCHAR},
+      </if>
+      <if test="gcbzxmxh != null">
+        GCBZXMXH = #{gcbzxmxh,jdbcType=INTEGER},
+      </if>
+      <if test="fl != null">
+        FL = #{fl,jdbcType=VARCHAR},
+      </if>
+      <if test="zt != null">
+        ZT = #{zt,jdbcType=VARCHAR},
+      </if>
+      <if test="ssq != null">
+        SSQ = #{ssq,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null">
+        XMMC = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zgbm != null">
+        ZGBM = #{zgbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmyz != null">
+        XMYZ = #{xmyz,jdbcType=VARCHAR},
+      </if>
+      <if test="xmgmhjsnr != null">
+        XMGMHJSNR = #{xmgmhjsnr,jdbcType=VARCHAR},
+      </if>
+      <if test="jhkgsjn != null">
+        JHKGSJN = #{jhkgsjn,jdbcType=INTEGER},
+      </if>
+      <if test="jhkgsjy != null">
+        JHKGSJY = #{jhkgsjy,jdbcType=INTEGER},
+      </if>
+      <if test="yjjcsjn != null">
+        YJJCSJN = #{yjjcsjn,jdbcType=INTEGER},
+      </if>
+      <if test="yjjcsjy != null">
+        YJJCSJY = #{yjjcsjy,jdbcType=INTEGER},
+      </if>
+      <if test="xmztzze != null">
+        XMZTZZE = #{xmztzze,jdbcType=DECIMAL},
+      </if>
+      <if test="xmztzczzj != null">
+        XMZTZCZZJ = #{xmztzczzj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where XMXH = #{xmxh,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.JkwwProjectInfo">
+    update jkwww_msjcssxmjcxxb
+    set XMBM = #{xmbm,jdbcType=VARCHAR},
+      SFWZDXM = #{sfwzdxm,jdbcType=VARCHAR},
+      ZDXMXH = #{zdxmxh,jdbcType=INTEGER},
+      SFWGCBZXM = #{sfwgcbzxm,jdbcType=VARCHAR},
+      GCBZXMXH = #{gcbzxmxh,jdbcType=INTEGER},
+      FL = #{fl,jdbcType=VARCHAR},
+      ZT = #{zt,jdbcType=VARCHAR},
+      SSQ = #{ssq,jdbcType=VARCHAR},
+      XMMC = #{xmmc,jdbcType=VARCHAR},
+      ZGBM = #{zgbm,jdbcType=VARCHAR},
+      XMYZ = #{xmyz,jdbcType=VARCHAR},
+      XMGMHJSNR = #{xmgmhjsnr,jdbcType=VARCHAR},
+      JHKGSJN = #{jhkgsjn,jdbcType=INTEGER},
+      JHKGSJY = #{jhkgsjy,jdbcType=INTEGER},
+      YJJCSJN = #{yjjcsjn,jdbcType=INTEGER},
+      YJJCSJY = #{yjjcsjy,jdbcType=INTEGER},
+      XMZTZZE = #{xmztzze,jdbcType=DECIMAL},
+      XMZTZCZZJ = #{xmztzczzj,jdbcType=DECIMAL}
+    where XMXH = #{xmxh,jdbcType=INTEGER}
+  </update>
+
+</mapper>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.SysUserMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.ShowUser">
+    <id column="XH" jdbcType="INTEGER" property="userId" />
+    <result column="YHM" jdbcType="VARCHAR" property="userName" />
+    <result column="YHNC" jdbcType="VARCHAR" property="nickName" />
+    <result column="MM" jdbcType="VARCHAR" property="passwd" />
+    <result column="SSBM" jdbcType="VARCHAR" property="deptCode" />
+    <result column="SSGW" jdbcType="VARCHAR" property="committeeCode" />
+    <result column="JS" jdbcType="VARCHAR" property="role" />
+    <result column="SJHM" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="DZYX" jdbcType="VARCHAR" property="email" />
+    <result column="BMQMC" jdbcType="VARCHAR" property="deptName" />
+    <result column="GWQMC" jdbcType="VARCHAR" property="committeeName" />
+  </resultMap>
+
+
+  <resultMap id="menuIds" type="java.lang.Integer" >
+    <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    XH, YHM, YHNC, MM, SSBM, SSGW, JS, SJHM, DZYX
+  </sql>
+
+  <resultMap id="menuAuthorityList" type="java.lang.String" >
+    <result column="menu_authority" property="menuAuthority" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gzrd_sjcj_yhxxb
+    where XH = #{userId,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gzrd_sjcj_yhxxb
+    where XH = #{userId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.SysUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+      SELECT BMBM FROM gzrd_sjcj_yhxxb order by XH desc limit 1
+    </selectKey>
+    insert into gzrd_sjcj_yhxxb (
+      XH, YHM, YHNC,
+      MM, SSBM, SSGW, JS, 
+      SJHM, DZYX
+    )
+    values (
+      #{userId,jdbcType=INTEGER},
+      #{userName,jdbcType=VARCHAR},
+      #{nickName,jdbcType=VARCHAR},
+      #{passwd,jdbcType=VARCHAR},
+      #{deptCode,jdbcType=VARCHAR},
+      #{committeeCode,jdbcType=VARCHAR},
+      #{role,jdbcType=VARCHAR},
+      #{phoneNum,jdbcType=VARCHAR},
+      #{email,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.SysUser">
+    <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
+      SELECT XH FROM gzrd_sjcj_yhxxb order by XH desc limit 1
+    </selectKey>
+    insert into gzrd_sjcj_yhxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        XH,
+      </if>
+      <if test="userName != null">
+        YHM,
+      </if>
+      <if test="nickName != null">
+        YHNC,
+      </if>
+      <if test="passwd != null">
+        MM,
+      </if>
+      <if test="deptCode != null">
+        SSBM,
+      </if>
+      <if test="committeeCode != null">
+        SSGW,
+      </if>
+      <if test="role != null">
+        JS,
+      </if>
+      <if test="phoneNum != null">
+        SJHM,
+      </if>
+      <if test="email != null">
+        DZYX,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="committeeCode != null">
+        #{committeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.SysUser">
+    update gzrd_sjcj_yhxxb
+    <set>
+      <if test="userName != null">
+        YHM = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null">
+        YHNC = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="passwd != null">
+        MM = #{passwd,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        SSBM = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="committeeCode != null">
+        SSGW = #{committeeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        JS = #{role,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null">
+        SJHM = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        DZYX = #{email,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where XH = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.SysUser">
+    update gzrd_sjcj_yhxxb
+    set YHM = #{userName,jdbcType=VARCHAR},
+      YHNC = #{nickName,jdbcType=VARCHAR},
+      MM = #{passwd,jdbcType=VARCHAR},
+      SSBM = #{deptCode,jdbcType=VARCHAR},
+      SSGW = #{committeeCode,jdbcType=VARCHAR},
+      JS = #{role,jdbcType=VARCHAR},
+      SJHM = #{phoneNum,jdbcType=VARCHAR},
+      DZYX = #{email,jdbcType=VARCHAR}
+    where XH = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByUserIdNotPasswd" parameterType="cn.gz.rd.datacollection.model.SysUser">
+    update gzrd_sjcj_yhxxb
+    set YHM = #{userName,jdbcType=VARCHAR},
+      YHNC = #{nickName,jdbcType=VARCHAR},
+      <if test="passwd != null">
+        MM = #{passwd,jdbcType=VARCHAR},
+      </if>
+      SSBM = #{deptCode,jdbcType=VARCHAR},
+      SSGW = #{committeeCode,jdbcType=VARCHAR},
+      JS = #{role,jdbcType=VARCHAR},
+      SJHM = #{phoneNum,jdbcType=VARCHAR},
+      DZYX = #{email,jdbcType=VARCHAR}
+    where XH = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByPage" resultMap="BaseResultMap">
+    SELECT h.XH, h.YHM, h.YHNC, h.SSBM, h.SSGW, h.JS, h.SJHM, h.DZYX, b.`BMQMC`, g.`GWQMC`
+    FROM `gzrd_sjcj_yhxxb` h
+      LEFT JOIN `gzrd_sjcj_bmxxb` b ON h.`SSBM` = b.`BMBM`
+      LEFT JOIN `gzrd_sjcj_gwxxb` g ON h.`SSGW` = g.`GWBM`
+    <where>
+      <if test="userName != null">
+        AND h.`YHM` LIKE #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null">
+        AND h.`YHNC` LIKE #{nickName,jdbcType=VARCHAR}
+      </if>
+    </where>
+    <if test="startRow != null and pageSize != null">
+      limit #{startRow}, #{pageSize}
+    </if>
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    SELECT COUNT(1)
+    FROM`gzrd_sjcj_yhxxb` h
+    <where>
+      <if test="userName != null">
+        AND h.`YHM` LIKE #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="nickName != null">
+        AND h.`YHNC` LIKE #{nickName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <select id="countSanmeUserName" resultType="java.lang.Integer">
+    SELECT count(1)
+    FROM`gzrd_sjcj_yhxxb` h
+    WHERE h.`YHM` = #{userName,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectMenuAuthorityByUserId" parameterType="java.lang.Integer" resultMap="menuAuthorityList">
+    SELECT
+      gsc.CDQX AS menu_authority
+    FROM gzrd_sjcj_yhcdglb gsbm
+      LEFT JOIN gzrd_sjcj_cdqxb gsc ON gsbm.CDBM=gsc.CDBM
+    WHERE gsbm.YHBM = #{userId,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="getMenuIdsByUserId" parameterType="java.lang.Integer" resultMap="menuIds">
+    SELECT
+      gsc.CDBM AS menu_id
+    FROM gzrd_sjcj_yhxxb gsb
+      LEFT JOIN gzrd_sjcj_yhcdglb gsbm ON gsbm.YHBM=gsb.XH
+      LEFT JOIN gzrd_sjcj_cdqxb gsc ON gsbm.CDBM=gsc.CDBM
+    WHERE gsb.XH = #{userId,jdbcType=INTEGER}
+          AND gsc.CDBM IS NOT NULL
+  </select>
+
+</mapper>

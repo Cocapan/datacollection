@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.DeptSubjectInfoMapper">
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.DeptSubjectInfo">
+    <id column="ZTZTID" jdbcType="INTEGER" property="ztztid" />
+    <result column="ZTBH" jdbcType="VARCHAR" property="ztbh" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+    <result column="SJZT" jdbcType="INTEGER" property="sjzt" />
+    <result column="SJCCSCSJ" jdbcType="TIMESTAMP" property="sjccscsj" />
+    <result column="SJTJZQ" jdbcType="VARCHAR" property="sjtjzq" />
+    <result column="SCSJDYHBH" jdbcType="VARCHAR" property="scsjdyhbh" />
+    <result column="WJCFLJ" jdbcType="VARCHAR" property="wjcflj" />
+    <result column="WJMC" jdbcType="VARCHAR" property="wjmc" />
+    <result column="YLLJ" jdbcType="VARCHAR" property="yllj" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    ZTZTID, ZTBH, BMBH, SJZT, SJCCSCSJ, SJTJZQ, SCSJDYHBH, WJCFLJ, WJMC, YLLJ
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jkwww_sjcj_ztztxxb
+    where ZTZTID = #{ztztid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectManySubjectAtCountRate" resultMap="BaseResultMap">
+    SELECT
+      <include refid="Base_Column_List" />
+    FROM jkwww_sjcj_ztztxxb
+    WHERE ZTZTID IN
+    <foreach collection="subjectStatusIds" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    AND SJTJZQ = #{countRate,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_sjcj_ztztxxb
+    where ZTZTID = #{ztztid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.DeptSubjectInfo"
+          keyProperty="ztztid" useGeneratedKeys="true">
+    insert into jkwww_sjcj_ztztxxb (ZTBH, BMBH,
+      SJZT, SJCCSCSJ, SJTJZQ, 
+      SCSJDYHBH, WJCFLJ, WJMC, YLLJ
+      )
+    values (
+      #{ztbh,jdbcType=VARCHAR},
+      #{bmbh,jdbcType=VARCHAR},
+      #{sjzt,jdbcType=INTEGER},
+      #{sjccscsj,jdbcType=TIMESTAMP},
+      #{sjtjzq,jdbcType=VARCHAR},
+      #{scsjdyhbh,jdbcType=VARCHAR},
+      #{wjcflj,jdbcType=VARCHAR},
+      #{wjmc,jdbcType=VARCHAR},
+      #{yllj,jdbcType=VARCHAR}
+    )
+  </insert>
+
+  <insert id="insertSelective" parameterType="cn.gz.rd.datacollection.model.DeptSubjectInfo"
+          keyProperty="ztztid" useGeneratedKeys="true">
+    insert into jkwww_sjcj_ztztxxb
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ztbh != null">
+        ZTBH,
+      </if>
+      <if test="bmbh != null">
+        BMBH,
+      </if>
+      <if test="sjzt != null">
+        SJZT,
+      </if>
+      <if test="sjccscsj != null">
+        SJCCSCSJ,
+      </if>
+      <if test="sjtjzq != null">
+        SJTJZQ,
+      </if>
+      <if test="scsjdyhbh != null">
+        SCSJDYHBH,
+      </if>
+      <if test="wjcflj != null">
+        WJCFLJ,
+      </if>
+      <if test="wjmc != null">
+        WJMC,
+      </if>
+      <if test="yllj != null">
+        YLLJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ztbh != null">
+        #{ztbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzt != null">
+        #{sjzt,jdbcType=INTEGER},
+      </if>
+      <if test="sjccscsj != null">
+        #{sjccscsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjtjzq != null">
+        #{sjtjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="scsjdyhbh != null">
+        #{scsjdyhbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wjcflj != null">
+        #{wjcflj,jdbcType=VARCHAR},
+      </if>
+      <if test="wjmc != null">
+        #{wjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="yllj != null">
+        #{yllj,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.DeptSubjectInfo">
+    update jkwww_sjcj_ztztxxb
+    <set>
+      <if test="ztbh != null">
+        ZTBH = #{ztbh,jdbcType=VARCHAR},
+      </if>
+      <if test="bmbh != null">
+        BMBH = #{bmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="sjzt != null">
+        SJZT = #{sjzt,jdbcType=INTEGER},
+      </if>
+      <if test="sjccscsj != null">
+        SJCCSCSJ = #{sjccscsj,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sjtjzq != null">
+        SJTJZQ = #{sjtjzq,jdbcType=VARCHAR},
+      </if>
+      <if test="scsjdyhbh != null">
+        SCSJDYHBH = #{scsjdyhbh,jdbcType=VARCHAR},
+      </if>
+      <if test="wjcflj != null">
+        WJCFLJ = #{wjcflj,jdbcType=VARCHAR},
+      </if>
+      <if test="wjmc != null">
+        WJMC = #{wjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="yllj != null">
+        YLLJ = #{yllj,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ZTZTID = #{ztztid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.DeptSubjectInfo">
+    update jkwww_sjcj_ztztxxb
+    set ZTBH = #{ztbh,jdbcType=VARCHAR},
+      BMBH = #{bmbh,jdbcType=VARCHAR},
+      SJZT = #{sjzt,jdbcType=INTEGER},
+      SJCCSCSJ = #{sjccscsj,jdbcType=TIMESTAMP},
+      SJTJZQ = #{sjtjzq,jdbcType=VARCHAR},
+      SCSJDYHBH = #{scsjdyhbh,jdbcType=VARCHAR},
+      WJCFLJ = #{wjcflj,jdbcType=VARCHAR},
+      WJMC = #{wjmc,jdbcType=VARCHAR},
+      YLLJ = #{yllj,jdbcType=VARCHAR}
+    where ZTZTID = #{ztztid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectDeptSubject" parameterType="cn.gz.rd.datacollection.model.DeptSubjectInfo"
+          resultMap="BaseResultMap">
+    select * from jkwww_sjcj_ztztxxb
+    <where>
+      <if test="ztbh != null">
+        AND ZTBH = #{ztbh,jdbcType=VARCHAR}
+      </if>
+      <if test="bmbh != null">
+        AND BMBH = #{bmbh,jdbcType=VARCHAR}
+      </if>
+      <if test="sjzt != null">
+        AND SJZT = #{sjzt,jdbcType=INTEGER}
+      </if>
+      <if test="sjccscsj != null">
+        AND SJCCSCSJ = #{sjccscsj,jdbcType=TIMESTAMP}
+      </if>
+      <if test="sjtjzq != null">
+        AND SJTJZQ = #{sjtjzq,jdbcType=VARCHAR}
+      </if>
+      <if test="scsjdyhbh != null">
+        AND SCSJDYHBH = #{scsjdyhbh,jdbcType=VARCHAR}
+      </if>
+      <if test="wjcflj != null">
+        AND WJCFLJ = #{wjcflj,jdbcType=VARCHAR}
+      </if>
+      <if test="wjmc != null">
+        AND WJMC = #{wjmc,jdbcType=VARCHAR}
+      </if>
+      <if test="yllj != null">
+        AND YLLJ = #{yllj,jdbcType=VARCHAR}
+      </if>
+    </where>
+
+  </select>
+
+</mapper>

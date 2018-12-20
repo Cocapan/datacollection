@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwPrjImgInfoMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwPrjImgInfo">
+    <id column="info_id" jdbcType="INTEGER" property="infoId" />
+    <result column="project_status_id" jdbcType="INTEGER" property="projectStatusId" />
+    <result column="img_file_name" jdbcType="VARCHAR" property="imgFileName" />
+    <result column="img_save_path" jdbcType="VARCHAR" property="imgSavePath" />
+    <result column="img_preview_path" jdbcType="VARCHAR" property="imgPreviewPath" />
+    <result column="img_new_save_path" jdbcType="VARCHAR" property="imgNewSavePath" />
+    <result column="upload_date" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="upload_user" jdbcType="VARCHAR" property="uploadUser" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    info_id, project_status_id, img_file_name, img_save_path, img_preview_path, img_new_save_path, upload_date, upload_user
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from jkwww_project_img
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrjStatusId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT
+        <include refid="Base_Column_List" />
+    FROM `jkwww_project_img` i
+    WHERE i.`project_status_id` = #{projectStatusId,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByFileNameAndSubjectCode" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM `jkwww_project_img` i
+    LEFT JOIN jkwww_sjcj_ztztxxb z
+    ON i.project_status_id = z.ZTZTID
+    WHERE i.`img_file_name` = #{imgFileName,jdbcType=VARCHAR}
+    AND z.ZTBH = #{subjectCode,jdbcType=VARCHAR}
+    AND z.SJTJZQ = #{statisticPeriod,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from jkwww_project_img
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="cn.gz.rd.datacollection.model.JkwwPrjImgInfo">
+    insert into jkwww_project_img (
+      project_status_id,
+      img_file_name,
+      img_save_path,
+      img_preview_path,
+      img_new_save_path,
+      upload_date,
+      upload_user
+    )
+    values (
+      #{projectStatusId,jdbcType=INTEGER},
+      #{imgFileName,jdbcType=VARCHAR},
+      #{imgSavePath,jdbcType=VARCHAR},
+      #{imgPreviewPath,jdbcType=VARCHAR},
+      #{imgNewSavePath,jdbcType=VARCHAR},
+      #{uploadDate,jdbcType=DATE},
+      #{uploadUser,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="infoId"
+          parameterType="cn.gz.rd.datacollection.model.JkwwPrjImgInfo">
+    insert into jkwww_project_img
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="projectStatusId != null">
+        project_status_id,
+      </if>
+      <if test="imgFileName != null">
+        img_file_name,
+      </if>
+      <if test="imgSavePath != null">
+        img_save_path,
+      </if>
+      <if test="imgPreviewPath != null">
+        img_preview_path,
+      </if>
+      <if test="imgNewSavePath != null">
+        img_new_save_path,
+      </if>
+      <if test="uploadDate != null">
+        upload_date,
+      </if>
+      <if test="uploadUser != null">
+        upload_user,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="projectStatusId != null">
+        #{projectStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="imgFileName != null">
+        #{imgFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSavePath != null">
+        #{imgSavePath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPreviewPath != null">
+        #{imgPreviewPath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgNewSavePath != null">
+        #{imgNewSavePath,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        #{uploadDate,jdbcType=DATE},
+      </if>
+      <if test="uploadUser != null">
+        #{uploadUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="cn.gz.rd.datacollection.model.JkwwPrjImgInfo">
+    update jkwww_project_img
+    <set>
+      <if test="projectStatusId != null">
+        project_status_id = #{projectStatusId,jdbcType=INTEGER},
+      </if>
+      <if test="imgFileName != null">
+        img_file_name = #{imgFileName,jdbcType=VARCHAR},
+      </if>
+      <if test="imgSavePath != null">
+        img_save_path = #{imgSavePath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgPreviewPath != null">
+        img_preview_path = #{imgPreviewPath,jdbcType=VARCHAR},
+      </if>
+      <if test="imgNewSavePath != null">
+        img_new_save_path = #{imgNewSavePath,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadDate != null">
+        upload_date = #{uploadDate,jdbcType=DATE},
+      </if>
+      <if test="uploadUser != null">
+        upload_user = #{uploadUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.JkwwPrjImgInfo">
+    update jkwww_project_img
+    set project_status_id = #{projectStatusId,jdbcType=INTEGER},
+      img_file_name = #{imgFileName,jdbcType=VARCHAR},
+      img_save_path = #{imgSavePath,jdbcType=VARCHAR},
+      img_preview_path = #{imgPreviewPath,jdbcType=VARCHAR},
+      img_new_save_path = #{imgNewSavePath,jdbcType=VARCHAR},
+      upload_date = #{uploadDate,jdbcType=DATE},
+      upload_user = #{uploadUser,jdbcType=VARCHAR}
+    where info_id = #{infoId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectImgIdBySubjectCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+    SELECT
+      project_id
+    FROM `jkwww_subject_project` jsp
+    WHERE jsp.subject_code = #{subjectCode,jdbcType=VARCHAR}
+  </select>
+
+    <select id="selectPrjStatusIdByCountRateAndSubjectCode" resultType="java.lang.Integer">
+        SELECT
+            ZTZTID
+        FROM jkwww_sjcj_ztztxxb
+        WHERE ZTBH = #{subjectCode,jdbcType=VARCHAR}
+        AND SJTJZQ = #{countRate,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

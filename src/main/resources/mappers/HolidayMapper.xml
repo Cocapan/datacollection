@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.HolidayMapper">
+
+    <resultMap id="holidayList" type="cn.gz.rd.datacollection.model.Holiday" >
+        <result column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="first_extra_work_date" property="firstExtraWorkDate" />
+        <result column="second_extra_work_date" property="secondExtraWorkDate" />
+        <result column="third_extra_work_date" property="thirdExtraWorkDate" />
+    </resultMap>
+
+    <resultMap id="yearList" type="java.lang.String" >
+        <result column="year" property="year" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="insert" parameterType="cn.gz.rd.datacollection.model.Holiday">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT id FROM gzrd_sjcj_holiday order by id desc limit 1
+        </selectKey>
+        INSERT INTO gzrd_sjcj_holiday
+        (name, start_date, end_date, first_extra_work_date, second_extra_work_date, third_extra_work_date, create_user, modify_user)
+        values
+        (#{name,jdbcType=VARCHAR},
+        #{startDate, jdbcType=DATE},
+        #{endDate, jdbcType=DATE},
+        #{firstExtraWorkDate, jdbcType=DATE},
+        #{secondExtraWorkDate, jdbcType=DATE},
+        #{thirdExtraWorkDate, jdbcType=DATE},
+        #{createUser,jdbcType=VARCHAR},
+        #{modifyUser,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="cn.gz.rd.datacollection.model.Holiday">
+        UPDATE gzrd_sjcj_holiday
+        <set >
+            <if test="name != null" >
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="startDate != null" >
+                start_date = #{startDate,jdbcType=DATE},
+            </if>
+            <if test="endDate != null" >
+                end_date = #{endDate,jdbcType=DATE},
+            </if>
+            first_extra_work_date = #{firstExtraWorkDate,jdbcType=DATE},
+            second_extra_work_date = #{secondExtraWorkDate,jdbcType=DATE},
+            third_extra_work_date = #{thirdExtraWorkDate,jdbcType=DATE},
+            <if test="modifyUser != null" >
+                modify_user = #{modifyUser,jdbcType=VARCHAR}
+            </if>
+        </set>
+        WHERE id = #{id,jdbcType=INTEGER};
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM gzrd_sjcj_holiday WHERE id = #{id,jdbcType=INTEGER};
+    </delete>
+
+    <select id="pageQueryAll" resultMap="holidayList" >
+        SELECT
+            id,
+            name,
+            start_date,
+            end_date,
+            first_extra_work_date,
+            second_extra_work_date,
+            third_extra_work_date
+        FROM gzrd_sjcj_holiday
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="pageQueryByCondition" resultMap="holidayList" >
+        SELECT
+            id,
+            name,
+            start_date,
+            end_date,
+            first_extra_work_date,
+            second_extra_work_date,
+            third_extra_work_date
+        FROM gzrd_sjcj_holiday
+             WHERE DATE_FORMAT(end_date, '%Y') = #{year,jdbcType=INTEGER}
+        LIMIT #{startSize}, #{pageSize}
+    </select>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM gzrd_sjcj_holiday;
+    </select>
+
+    <select id="countByCondition" resultType="java.lang.Integer">
+        SELECT
+            COUNT(1)
+        FROM gzrd_sjcj_holiday
+        WHERE end_date LIKE CONCAT('%',#{year},'%') ;
+    </select>
+
+    <select id="queryAll" resultMap="holidayList" >
+        SELECT
+            id,
+            name,
+            start_date,
+            end_date,
+            first_extra_work_date,
+            second_extra_work_date,
+            third_extra_work_date
+        FROM gzrd_sjcj_holiday
+    </select>
+
+    <select id="getExtraWorkDateByYearAndMonth" resultMap="holidayList" >
+        SELECT
+            first_extra_work_date,
+            second_extra_work_date,
+            third_extra_work_date
+        FROM gzrd_sjcj_holiday
+        WHERE DATE_FORMAT(first_extra_work_date, '%Y') = #{year,jdbcType=INTEGER}
+              AND DATE_FORMAT(first_extra_work_date, '%m') = #{month,jdbcType=INTEGER}
+    </select>
+
+    <select id="getYearList" resultMap="yearList">
+        SELECT
+            DISTINCT(DATE_FORMAT(end_date, '%Y')) AS year
+        FROM gzrd_sjcj_holiday
+    </select>
+
+</mapper>

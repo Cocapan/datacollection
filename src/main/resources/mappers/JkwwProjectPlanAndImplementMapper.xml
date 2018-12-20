@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.JkwwProjectPlanAndImplementMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.JkwwProjectPlanAndImplement">
+    <id column="XH" jdbcType="INTEGER" property="xh" />
+    <result column="GZRW" jdbcType="VARCHAR" property="gzrw" />
+    <result column="JHCTSJ" jdbcType="VARCHAR" property="jhctsj" />
+    <result column="LY" jdbcType="VARCHAR" property="ly" />
+    <result column="GZJD" jdbcType="VARCHAR" property="gzjd" />
+    <result column="WCQK" jdbcType="VARCHAR" property="wcqk" />
+    <result column="BZ" jdbcType="VARCHAR" property="bz" />
+
+    <result column="YJZDQK" jdbcType="VARCHAR" property="yjzdqk" />
+    <result column="PSQK" jdbcType="VARCHAR" property="psqk" />
+    <result column="PFQK" jdbcType="VARCHAR" property="pfqk" />
+    <result column="GHZXMLXQK" jdbcType="VARCHAR" property="ghzxmlxqk" />
+    <result column="GHSSQK" jdbcType="VARCHAR" property="ghssqk" />
+    <result column="CZWTJDC" jdbcType="VARCHAR" property="czwtjdc" />
+    <result column="TBR" jdbcType="VARCHAR" property="tbr" />
+    <result column="LXDH" jdbcType="VARCHAR" property="lxdh" />
+    <result column="TJZQ" jdbcType="VARCHAR" property="tjzq" />
+    <result column="BMBH" jdbcType="VARCHAR" property="bmbh" />
+  </resultMap>
+
+  <delete id="deleteDeptData">
+    delete from jkwww_msjcssbjghjqssfazdssqkb
+    where BMBH = #{deptCode,jdbcType=VARCHAR} and TJZQ = #{countRate,jdbcType=VARCHAR}
+  </delete>
+
+  <select id="selectDeptData" resultMap="BaseResultMap">
+    SELECT *
+    FROM jkwww_msjcssbjghjqssfazdss_jcxxb j, jkwww_msjcssbjghjqssfazdssqkb q
+    WHERE j.XH = q.XH
+    <if test="deptCode != null">
+      AND q.BMBH = #{deptCode,jdbcType=VARCHAR}
+    </if>
+    <if test="countRate != null">
+      AND q.tjzq = #{countRate,jdbcType=VARCHAR}
+    </if>
+    ORDER BY ID
+  </select>
+
+</mapper>

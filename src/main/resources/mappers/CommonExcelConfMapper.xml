@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.gz.rd.datacollection.dao.CommonExcelConfMapper">
+
+  <resultMap id="BaseResultMap" type="cn.gz.rd.datacollection.model.CommonExcelConf">
+    <id column="subject_code" jdbcType="VARCHAR" property="confId" />
+    <result column="subject_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="save_location" jdbcType="VARCHAR" property="tableName" />
+    <result column="data_start_row" jdbcType="INTEGER" property="firstRowNum" />
+    <result column="column_num" jdbcType="INTEGER" property="columnLen" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    subject_code, subject_name, save_location, data_start_row, column_num
+  </sql>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+      <include refid="Base_Column_List" />
+    from gzrd_subject_info
+    where subject_type = '数据表' and subject_code = #{confId,jdbcType=VARCHAR}
+  </select>
+
+  <resultMap id="ColumnResultMap" type="cn.gz.rd.datacollection.model.DbColumnInfo">
+    <id column="column_name" jdbcType="VARCHAR" property="columnName" />
+    <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+    <result column="numeric_scale" jdbcType="INTEGER" property="numericScale" />
+    <result column="character_maximum_length" jdbcType="INTEGER" property="characterMaximumLength" />
+    <result column="numeric_precision" jdbcType="INTEGER" property="numericPrecision" />
+  </resultMap>
+
+  <select id="selectTableColumnInfo"
+          parameterType="java.lang.String" resultMap="ColumnResultMap">
+    SELECT t.column_name, t.data_type, t.numeric_scale, t.character_maximum_length, t.numeric_precision
+    FROM information_schema.columns t
+    WHERE t.table_schema ='renda' AND t.`COLUMN_NAME` != 'id'
+    AND t.`COLUMN_NAME` != 'CJSJ'
+    AND t.table_name = #{tableName,jdbcType=VARCHAR}
+    ORDER BY t.ordinal_position
+  </select>
+
+  <insert id="batchInsertList" parameterType="java.util.List">
+    insert into ${tableName}
+    values
+    <foreach collection="rowValueList" item="columnValueList" open="" close="" separator=",">
+        (
+      <foreach collection="columnValueList" item="columnValue" separator=",">
+          #{columnValue}
+      </foreach>
+        )
+    </foreach>
+  </insert>
+
+  <update id="updateIsUsable" parameterType="java.lang.String">
+    update ${tableName} set SFYX = 1 where countRate = #{countRate};
+  </update>
+
+</mapper>
